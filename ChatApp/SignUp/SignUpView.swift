@@ -9,8 +9,12 @@ import UIKit
 
 class SignUpView: UIView {
 
-    var signUpAction: (() -> Void)?
+    var signUpAction: ((String, String, String) -> Void)?
     var closeAction: (() -> Void)?
+    var presentPicker: (() -> Void)?
+    
+    var constraintsWithErrorLabel = [NSLayoutConstraint]()
+    var constraintsWithoutErrorLabel = [NSLayoutConstraint]()
     
     let closeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -31,6 +35,19 @@ class SignUpView: UIView {
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let avatarImage: UIImageView = {
+        let avatar = UIImageView()
+        avatar.image = UIImage(named: "camera")
+        avatar.layer.cornerRadius = Constants.avatarSize/2
+        avatar.clipsToBounds = true
+        avatar.translatesAutoresizingMaskIntoConstraints = false
+        avatar.isUserInteractionEnabled = true
+//        let tapGesture = UITapGestureRecognizer(target: self,
+//                                                action: #selector(avatarTapped))
+//        avatar.addGestureRecognizer(tapGesture)
+        return avatar
     }()
 
     let nicknameTF: UITextField = {
@@ -87,29 +104,63 @@ class SignUpView: UIView {
         return button
     }()
     
+    let errorLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemRed
+        label.font = .systemFont(ofSize: 17, weight: .thin)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
         setConstraints()
+        configAvatar()
     }
     
-    func setConstraints() {
-        self.addSubview(closeButton)
+    private func configAvatar() {
+        let tapGesture = UITapGestureRecognizer(target: self,
+                                                action: #selector(avatarTapped))
+        avatarImage.addGestureRecognizer(tapGesture)
+    }
+    
+    private func setConstraints() {
         let stack = createStackView()
-        self.addSubview(stack)
+        [closeButton, signUpLabel, avatarImage, stack].forEach { addSubview($0) }
+        
+        constraintsWithoutErrorLabel = [
+            stack.topAnchor.constraint(equalTo: avatarImage.bottomAnchor,
+                                       constant: Constants.insets),
+        ]
+        constraintsWithErrorLabel = [
+            errorLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor,
+                                            constant: Constants.insets),
+            errorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+                                                constant: Constants.insets),
+            errorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+                                                constant: -Constants.insets),
+            stack.topAnchor.constraint(equalTo: errorLabel.bottomAnchor,
+                                       constant: 5)
+        ]
         
         NSLayoutConstraint.activate([
-//            signUpLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constants.insets),
-//            signUpLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.insets),
-//            stack.topAnchor.constraint(equalTo: signUpLabel.bottomAnchor, constant: Constants.insets),
             closeButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
                                              constant: Constants.insets),
             closeButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
                                                  constant: -Constants.insets),
             closeButton.widthAnchor.constraint(equalToConstant: Constants.closeButtonSize),
             closeButton.heightAnchor.constraint(equalToConstant: Constants.closeButtonSize),
-            stack.topAnchor.constraint(equalTo: closeButton.bottomAnchor,
+            signUpLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor,
                                        constant: Constants.insets),
+            signUpLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+                                       constant: Constants.insets),
+            avatarImage.topAnchor.constraint(equalTo: signUpLabel.bottomAnchor,
+                                             constant: Constants.insets),
+            avatarImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            avatarImage.widthAnchor.constraint(equalToConstant: Constants.avatarSize),
+            avatarImage.heightAnchor.constraint(equalToConstant: Constants.avatarSize),
             stack.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
                                            constant: Constants.insets),
             stack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
@@ -118,13 +169,12 @@ class SignUpView: UIView {
             emailTF.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
             passwordTF.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
             signUpButton.heightAnchor.constraint(equalToConstant: Constants.signUpButtonHeight)
-        ])
+        ] + constraintsWithoutErrorLabel)
         
     }
     
-    func createStackView() -> UIStackView {
-        let stackView = UIStackView(arrangedSubviews: [signUpLabel,
-                                                       nicknameTF,
+    private func createStackView() -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: [nicknameTF,
                                                        emailTF,
                                                        passwordTF,
                                                       signUpButton])
@@ -135,8 +185,41 @@ class SignUpView: UIView {
         return stackView
     }
     
+    func addErrorLabels(for textField: UITextField, error: String? = nil){
+        switch textField {
+        case nicknameTF: errorLabel.text = SignUpErrors.emptyNicknameField.rawValue
+            nicknameTF.becomeFirstResponder()
+        case emailTF: errorLabel.text = SignUpErrors.emptyEmailField.rawValue
+            emailTF.becomeFirstResponder()
+        case passwordTF: errorLabel.text = SignUpErrors.emptyPasswordField.rawValue
+            passwordTF.becomeFirstResponder()
+        default: errorLabel.text = error
+        }
+        self.addSubview(errorLabel)
+        constraintsWithoutErrorLabel.forEach {$0.isActive = false}
+        constraintsWithErrorLabel.forEach {$0.isActive = true}
+    }
+    
     @objc private func signUpPressed() {
-        signUpAction?()
+        guard let userName = nicknameTF.text, nicknameTF.hasText else {
+            addErrorLabels(for: nicknameTF)
+            return
+        }
+        guard let email = emailTF.text, emailTF.hasText else {
+            addErrorLabels(for: emailTF)
+            return
+        }
+        guard let password = passwordTF.text, passwordTF.hasText else {
+            addErrorLabels(for: passwordTF)
+            return
+        }
+        signUpAction?(userName, email, password)
+    }
+    
+    @objc private func avatarTapped(_ gesture: UITapGestureRecognizer){
+//        let tappedImage = gesture.view as! UIImageView
+        presentPicker?()
+        print("avatar tapped")
     }
     
     @objc private func closeButtonTapped() {
@@ -153,4 +236,12 @@ private struct Constants {
     static let signUpButtonHeight: CGFloat = 50
     static let insets: CGFloat = 20
     static let closeButtonSize: CGFloat = 30
+    static let avatarSize: CGFloat = 100
+}
+
+enum SignUpErrors: String {
+    case emptyEmailField = "Please enter email"
+    case emptyPasswordField = "Please enter password"
+    case emptyNicknameField = "Please enter username"
+    case incorrectData = "Incorrect email or password"
 }

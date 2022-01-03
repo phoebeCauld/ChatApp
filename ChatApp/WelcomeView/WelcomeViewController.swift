@@ -29,8 +29,8 @@ class WelcomeViewController: UIViewController {
     }
     
     private func logInPressed() {
-        print("log in")
-    }
+        let logInVC = LogInViewController()
+        navigationController?.present(logInVC, animated: true)    }
 
 }
 

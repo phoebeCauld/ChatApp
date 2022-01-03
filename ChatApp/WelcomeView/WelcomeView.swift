@@ -23,7 +23,7 @@ class WelcomeView: UIView {
     
     let signUpButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemTeal
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
         button.setTitle("GET STARTED", for: .normal)
@@ -38,7 +38,7 @@ class WelcomeView: UIView {
         let button = UIButton(type: .system)
         button.titleLabel?.font = .boldSystemFont(ofSize: 15)
         button.setTitle("Log in", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitleColor(.systemTeal, for: .normal)
         button.addTarget(self,
                          action: #selector(logInPressed),
                          for: .touchUpInside)

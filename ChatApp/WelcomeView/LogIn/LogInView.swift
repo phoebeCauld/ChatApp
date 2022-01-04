@@ -80,6 +80,7 @@ class LogInView: UIView {
     let errorLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemRed
+        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17, weight: .thin)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -97,35 +98,37 @@ class LogInView: UIView {
 
         constraintsWithoutErrorLabel = [
             stack.topAnchor.constraint(equalTo: logInLabel.bottomAnchor,
-                                       constant: Constants.insets),
+                                       constant: logInViewConstants.insets),
         ]
         constraintsWithErrorLabel = [
             errorLabel.topAnchor.constraint(equalTo: logInLabel.bottomAnchor,
-                                            constant: Constants.insets),
+                                            constant: logInViewConstants.insets),
             errorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-                                                constant: Constants.insets),
+                                                constant: logInViewConstants.insets),
             stack.topAnchor.constraint(equalTo: errorLabel.bottomAnchor,
                                        constant: 5)
         ]
         
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
-                                             constant: Constants.insets),
+                                             constant: logInViewConstants.insets),
             closeButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                 constant: -Constants.insets),
-            closeButton.widthAnchor.constraint(equalToConstant: Constants.closeButtonSize),
-            closeButton.heightAnchor.constraint(equalToConstant: Constants.closeButtonSize),
+                                                 constant: -logInViewConstants.insets),
+            closeButton.widthAnchor.constraint(equalToConstant: logInViewConstants.closeButtonSize),
+            closeButton.heightAnchor.constraint(equalToConstant: logInViewConstants.closeButtonSize),
             logInLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor,
-                                            constant: Constants.insets),
+                                            constant: logInViewConstants.insets),
             logInLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                                constant: Constants.insets),
+                                                constant: logInViewConstants.insets),
+            logInLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                constant: -logInViewConstants.insets),
             stack.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                           constant: Constants.insets),
+                                           constant: logInViewConstants.insets),
             stack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                            constant: -Constants.insets),
-            emailTF.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
-            passwordTF.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
-            logInButton.heightAnchor.constraint(equalToConstant: Constants.logInButtonHeight),
+                                            constant: -logInViewConstants.insets),
+            emailTF.heightAnchor.constraint(equalToConstant: logInViewConstants.textFieldsHeight),
+            passwordTF.heightAnchor.constraint(equalToConstant: logInViewConstants.textFieldsHeight),
+            logInButton.heightAnchor.constraint(equalToConstant: logInViewConstants.logInButtonHeight),
         ] + constraintsWithoutErrorLabel)
     }
     
@@ -141,13 +144,13 @@ class LogInView: UIView {
     }
     
 
-    private func addErrorLabels(for textField: UITextField){
+     func addErrorLabels(for textField: UITextField, error: String? = nil){
         switch textField {
         case emailTF: errorLabel.text = LogInErrors.emptyEmailField.rawValue
             emailTF.becomeFirstResponder()
         case passwordTF: errorLabel.text = LogInErrors.emptyPasswordField.rawValue
             passwordTF.becomeFirstResponder()
-        default: return
+        default: errorLabel.text = error
         }
         constraintsWithoutErrorLabel.forEach {$0.isActive = false}
         constraintsWithErrorLabel.forEach {$0.isActive = true}
@@ -174,7 +177,7 @@ class LogInView: UIView {
     }
 }
 
-private struct Constants {
+private struct logInViewConstants {
     static let textFieldsHeight: CGFloat = 50
     static let logInButtonHeight: CGFloat = 50
     static let insets: CGFloat = 20

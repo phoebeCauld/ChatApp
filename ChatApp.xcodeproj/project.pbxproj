@@ -10,6 +10,9 @@
 		25C4015B2B0C001FA540DE7C /* Pods_ChatApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33329E114118E3D7256179DF /* Pods_ChatApp.framework */; };
 		2D439035278321BC00455C6B /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D439034278321BC00455C6B /* LogInViewController.swift */; };
 		2D439037278321C900455C6B /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D439036278321C900455C6B /* LogInView.swift */; };
+		2D83CEC12784D07B001E38A7 /* ChatAppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D83CEC02784D07B001E38A7 /* ChatAppTabBarController.swift */; };
+		2D83CEC32784D17B001E38A7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D83CEC22784D17B001E38A7 /* Constants.swift */; };
+		2D83CEC52784D742001E38A7 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D83CEC42784D742001E38A7 /* ContactsTableViewController.swift */; };
 		2D96F3232781AAAA00AE71E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96F3222781AAAA00AE71E0 /* AppDelegate.swift */; };
 		2D96F3252781AAAA00AE71E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96F3242781AAAA00AE71E0 /* SceneDelegate.swift */; };
 		2D96F3272781AAAA00AE71E0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96F3262781AAAA00AE71E0 /* WelcomeViewController.swift */; };
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		2D439034278321BC00455C6B /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		2D439036278321C900455C6B /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		2D83CEC02784D07B001E38A7 /* ChatAppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAppTabBarController.swift; sourceTree = "<group>"; };
+		2D83CEC22784D17B001E38A7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2D83CEC42784D742001E38A7 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
 		2D96F31F2781AAAA00AE71E0 /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D96F3222781AAAA00AE71E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D96F3242781AAAA00AE71E0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +78,15 @@
 			path = LogIn;
 			sourceTree = "<group>";
 		};
+		2D83CEBF2784D032001E38A7 /* ChatView */ = {
+			isa = PBXGroup;
+			children = (
+				2D83CEC02784D07B001E38A7 /* ChatAppTabBarController.swift */,
+				2D83CEC42784D742001E38A7 /* ContactsTableViewController.swift */,
+			);
+			path = ChatView;
+			sourceTree = "<group>";
+		};
 		2D96F3162781AAAA00AE71E0 = {
 			isa = PBXGroup;
 			children = (
@@ -96,9 +111,9 @@
 				2D96F3222781AAAA00AE71E0 /* AppDelegate.swift */,
 				2D96F3242781AAAA00AE71E0 /* SceneDelegate.swift */,
 				2D96F33C2782303C00AE71E0 /* WelcomeView */,
-				2D96F33D2782304900AE71E0 /* SignUp */,
-				2D439038278321CE00455C6B /* LogIn */,
+				2D83CEBF2784D032001E38A7 /* ChatView */,
 				2D96F3282781AAAA00AE71E0 /* Main.storyboard */,
+				2D83CEC22784D17B001E38A7 /* Constants.swift */,
 				2D96F3382781BE4700AE71E0 /* GoogleService-Info.plist */,
 				2D96F32B2781AAAB00AE71E0 /* Assets.xcassets */,
 				2D96F32D2781AAAB00AE71E0 /* LaunchScreen.storyboard */,
@@ -110,8 +125,10 @@
 		2D96F33C2782303C00AE71E0 /* WelcomeView */ = {
 			isa = PBXGroup;
 			children = (
-				2D96F3262781AAAA00AE71E0 /* WelcomeViewController.swift */,
 				2D96F3362781B01400AE71E0 /* WelcomeView.swift */,
+				2D96F3262781AAAA00AE71E0 /* WelcomeViewController.swift */,
+				2D439038278321CE00455C6B /* LogIn */,
+				2D96F33D2782304900AE71E0 /* SignUp */,
 			);
 			path = WelcomeView;
 			sourceTree = "<group>";
@@ -252,7 +269,10 @@
 				2D96F3272781AAAA00AE71E0 /* WelcomeViewController.swift in Sources */,
 				2D96F3232781AAAA00AE71E0 /* AppDelegate.swift in Sources */,
 				2D96F3252781AAAA00AE71E0 /* SceneDelegate.swift in Sources */,
+				2D83CEC12784D07B001E38A7 /* ChatAppTabBarController.swift in Sources */,
+				2D83CEC52784D742001E38A7 /* ContactsTableViewController.swift in Sources */,
 				2D439035278321BC00455C6B /* LogInViewController.swift in Sources */,
+				2D83CEC32784D17B001E38A7 /* Constants.swift in Sources */,
 				2D96F3372781B01400AE71E0 /* WelcomeView.swift in Sources */,
 				2D96F33F2782307000AE71E0 /* SignUpView.swift in Sources */,
 				2D439037278321C900455C6B /* LogInView.swift in Sources */,

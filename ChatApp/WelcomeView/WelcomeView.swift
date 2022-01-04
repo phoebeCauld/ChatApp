@@ -27,7 +27,7 @@ class WelcomeView: UIView {
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
         button.setTitle("GET STARTED", for: .normal)
-        button.layer.cornerRadius = Constants.signUpButtonHeight/2
+        button.layer.cornerRadius = WelcomeViewConstants.signUpButtonHeight/2
         button.addTarget(self,
                          action: #selector(getStartedPressed),
                          for: .touchUpInside)
@@ -67,14 +67,14 @@ class WelcomeView: UIView {
         self.addSubview(stack)
         
         NSLayoutConstraint.activate([
-            welcomeImage.widthAnchor.constraint(equalToConstant: Constants.imageSize),
-            welcomeImage.heightAnchor.constraint(equalToConstant: Constants.imageSize),
+            welcomeImage.widthAnchor.constraint(equalToConstant: WelcomeViewConstants.imageSize),
+            welcomeImage.heightAnchor.constraint(equalToConstant: WelcomeViewConstants.imageSize),
             signUpButton.widthAnchor.constraint(equalTo: welcomeImage.widthAnchor, multiplier: 0.8),
-            signUpButton.heightAnchor.constraint(equalToConstant: Constants.signUpButtonHeight),
+            signUpButton.heightAnchor.constraint(equalToConstant: WelcomeViewConstants.signUpButtonHeight),
             stack.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.insets),
-            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.insets),
-            stack.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.insets*2)
+            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: WelcomeViewConstants.insets),
+            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -WelcomeViewConstants.insets),
+            stack.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -WelcomeViewConstants.insets*2)
         ])
     }
     
@@ -91,7 +91,7 @@ class WelcomeView: UIView {
     }
 }
 
-private struct Constants {
+private struct WelcomeViewConstants {
     static let signUpButtonHeight: CGFloat = 60
     static let insets: CGFloat = 20
     static let imageSize: CGFloat = 350

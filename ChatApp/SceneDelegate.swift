@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -16,9 +16,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow()
-        window?.makeKeyAndVisible()
         window?.windowScene = scene
-        window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
+        window?.makeKeyAndVisible()
+        configureInitialVC()
+    }
+    
+    func configureInitialVC(){
+        var initialVC: UIViewController
+        if let _ = Auth.auth().currentUser {
+            initialVC = ChatAppTabBarController()
+        } else {
+            initialVC = UINavigationController(rootViewController: WelcomeViewController())
+        }
+        window?.rootViewController = initialVC
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

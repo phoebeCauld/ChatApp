@@ -40,7 +40,7 @@ class SignUpView: UIView {
     let avatarImage: UIImageView = {
         let avatar = UIImageView()
         avatar.image = UIImage(named: "camera")
-        avatar.layer.cornerRadius = Constants.avatarSize/2
+        avatar.layer.cornerRadius = SignUpViewConstants.avatarSize/2
         avatar.clipsToBounds = true
         avatar.translatesAutoresizingMaskIntoConstraints = false
         avatar.isUserInteractionEnabled = true
@@ -132,43 +132,43 @@ class SignUpView: UIView {
         
         constraintsWithoutErrorLabel = [
             stack.topAnchor.constraint(equalTo: avatarImage.bottomAnchor,
-                                       constant: Constants.insets),
+                                       constant: SignUpViewConstants.insets),
         ]
         constraintsWithErrorLabel = [
             errorLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor,
-                                            constant: Constants.insets),
+                                            constant: SignUpViewConstants.insets),
             errorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-                                                constant: Constants.insets),
+                                                constant: SignUpViewConstants.insets),
             errorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-                                                constant: -Constants.insets),
+                                                constant: -SignUpViewConstants.insets),
             stack.topAnchor.constraint(equalTo: errorLabel.bottomAnchor,
                                        constant: 5)
         ]
         
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
-                                             constant: Constants.insets),
+                                             constant: SignUpViewConstants.insets),
             closeButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                 constant: -Constants.insets),
-            closeButton.widthAnchor.constraint(equalToConstant: Constants.closeButtonSize),
-            closeButton.heightAnchor.constraint(equalToConstant: Constants.closeButtonSize),
+                                                 constant: -SignUpViewConstants.insets),
+            closeButton.widthAnchor.constraint(equalToConstant: SignUpViewConstants.closeButtonSize),
+            closeButton.heightAnchor.constraint(equalToConstant: SignUpViewConstants.closeButtonSize),
             signUpLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor,
-                                       constant: Constants.insets),
+                                       constant: SignUpViewConstants.insets),
             signUpLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-                                       constant: Constants.insets),
+                                       constant: SignUpViewConstants.insets),
             avatarImage.topAnchor.constraint(equalTo: signUpLabel.bottomAnchor,
-                                             constant: Constants.insets),
+                                             constant: SignUpViewConstants.insets),
             avatarImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            avatarImage.widthAnchor.constraint(equalToConstant: Constants.avatarSize),
-            avatarImage.heightAnchor.constraint(equalToConstant: Constants.avatarSize),
+            avatarImage.widthAnchor.constraint(equalToConstant: SignUpViewConstants.avatarSize),
+            avatarImage.heightAnchor.constraint(equalToConstant: SignUpViewConstants.avatarSize),
             stack.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                           constant: Constants.insets),
+                                           constant: SignUpViewConstants.insets),
             stack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                            constant: -Constants.insets),
-            nicknameTF.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
-            emailTF.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
-            passwordTF.heightAnchor.constraint(equalToConstant: Constants.textFieldsHeight),
-            signUpButton.heightAnchor.constraint(equalToConstant: Constants.signUpButtonHeight)
+                                            constant: -SignUpViewConstants.insets),
+            nicknameTF.heightAnchor.constraint(equalToConstant: SignUpViewConstants.textFieldsHeight),
+            emailTF.heightAnchor.constraint(equalToConstant: SignUpViewConstants.textFieldsHeight),
+            passwordTF.heightAnchor.constraint(equalToConstant: SignUpViewConstants.textFieldsHeight),
+            signUpButton.heightAnchor.constraint(equalToConstant: SignUpViewConstants.signUpButtonHeight)
         ] + constraintsWithoutErrorLabel)
         
     }
@@ -231,7 +231,7 @@ class SignUpView: UIView {
     }
 }
 
-private struct Constants {
+private struct SignUpViewConstants {
     static let textFieldsHeight: CGFloat = 50
     static let signUpButtonHeight: CGFloat = 50
     static let insets: CGFloat = 20

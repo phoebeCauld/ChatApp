@@ -6,12 +6,25 @@
 //
 
 import Foundation
+import UIKit
 
 struct Constants {
     struct Images {
         static let messagesImage: String = "bubble.left.and.bubble.right.fill"
         static let contactsImage: String = "person.crop.circle.fill"
         static let settingsImage: String = "gear"
+        static let mediaButton: String = "paperclip"
+        static let sendButton: String = "arrow.up.circle.fill"
+    }
+    
+    struct Firestore {
+        static let usersCollectionName: String = "users"
+        static let messagesCollectionName: String = "messages"
+
+    }
+    
+    struct Colors {
+        static let grayBackground: UIColor = UIColor(white: 0.9, alpha: 1)
     }
     
 }

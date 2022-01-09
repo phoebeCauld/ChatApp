@@ -14,22 +14,25 @@ class ChatAppTabBarController: UITabBarController {
         viewControllers = [
             createNavControler(viewControler: ContactsTableViewController(),
                                title: "Contacts",
-                               image: Constants.Images.contactsImage),
-            createNavControler(viewControler: UIViewController(),
+                               image: Constants.Images.contactsImage,
+                               backgroundColor: .white),
+            createNavControler(viewControler: InboxTableViewController(),
                                title: "Chats",
-                               image: Constants.Images.messagesImage),
-            createNavControler(viewControler: UIViewController(),
+                               image: Constants.Images.messagesImage,
+                               backgroundColor: .white),
+            createNavControler(viewControler: SettingsTableViewController(style: .grouped),
                                title: "Settings",
-                               image: Constants.Images.settingsImage)
+                               image: Constants.Images.settingsImage,
+                               backgroundColor: Constants.Colors.grayBackground)
         ]
     }
     
     fileprivate func createNavControler(viewControler: UIViewController,
                                         title: String,
-                                        image: String) -> UIViewController {
+                                        image: String, backgroundColor: UIColor) -> UIViewController {
         let navController = UINavigationController(rootViewController: viewControler)
         navController.navigationBar.prefersLargeTitles = true
-        viewControler.view.backgroundColor = .white
+        viewControler.view.backgroundColor = backgroundColor
         viewControler.navigationItem.title = title
         navController.tabBarItem.title = title
         navController.tabBarItem.image = UIImage(systemName: image)

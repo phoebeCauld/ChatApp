@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseStorage
+import FirebaseDatabase
 
 class FirestoreManager {
 
@@ -137,15 +138,24 @@ class FirestoreManager {
                 print("Adding messsages to database failed with: \(error.localizedDescription)")
             }
         })
+        saveToInbox(from: currentUserUid, to: partnerUid, dict: dict)
     }
     
-    func recieveMessages(from: String?, to: String?, onSuccess: @escaping ((Message) -> Void)) {
+    fileprivate func saveToInbox(from: String, to: String, dict: [String: Any]) {
+        let refFrom = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(from).child(to)
+        refFrom.updateChildValues(dict)
+        
+        let refTo = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(to).child(from)
+        refTo.updateChildValues(dict)
+    }
+    
+    func recieveMessages(from: String?, to: String?,
+                         onSuccess: @escaping ((Message) -> Void)) {
         guard let from = from else { return }
         guard let to = to else { return }
 
         let docRef = db.collection(Constants.Firestore.messagesCollectionName).document(from).collection(to)
-
-        docRef.getDocuments { snapshot, error in
+        docRef.addSnapshotListener { snapshot, error in
             if let error = error {
                 print("Document does not exist: \(error.localizedDescription)")
                 return
@@ -158,6 +168,19 @@ class FirestoreManager {
                 }
             }
         }
+//        docRef.getDocuments { snapshot, error in
+//            if let error = error {
+//                print("Document does not exist: \(error.localizedDescription)")
+//                return
+//            }
+//            if let documents = snapshot?.documents {
+//                for document in documents {
+//                    if let message = self.transformMessage(dict: document.data()){
+//                        onSuccess(message)
+//                    }
+//                }
+//            }
+//        }
     }
     
     func transformMessage(dict: [String: Any]) -> Message? {
@@ -172,5 +195,45 @@ class FirestoreManager {
                               text: text,
                               date: date)
         return message
+    }
+    
+    func recieveInboxMessages(uid: String, onSuccess: @escaping ((Inbox) -> Void)) {
+        let ref = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(uid)
+        ref.observe(DataEventType.childAdded) { snapshot in
+            if let dict = snapshot.value as? [String: Any] {
+                self.getUser(uid: snapshot.key) { user in
+                    guard  let inbox = self.transformInbox(dict: dict, user: user) else { return }
+                    onSuccess(inbox)
+                }
+            }
+        }
+    }
+    
+    func getUser(uid: String, onSuccess: @escaping ((User) -> Void)) {
+        let docRef = Firestore.firestore().collection(Constants.Firestore.usersCollectionName).document(uid)
+        docRef.getDocument { snapshot, error in
+            if let error = error {
+                print("Fetching users failed with: \(error.localizedDescription)")
+            }
+            if let snapshot = snapshot {
+                guard let data = snapshot.data() else { return }
+                guard let user = self.transformUser(dict: data) else { return }
+                onSuccess(user)
+                }
+        }
+    }
+    
+    func transformInbox(dict: [String: Any], user: User) -> Inbox? {
+        guard let from = dict["from"] as? String,
+              let to = dict["to"] as? String,
+              let text = dict["text"] as? String,
+              let date = dict["date"] as? Double else {
+                  return nil
+              }
+        let inbox = Inbox(user: user, from: from,
+                              to: to,
+                              text: text,
+                              date: date)
+        return inbox
     }
 }

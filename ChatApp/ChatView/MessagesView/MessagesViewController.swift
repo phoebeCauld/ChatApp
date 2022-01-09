@@ -10,7 +10,7 @@ import Firebase
 
 class MessagesViewController: UIViewController {
     
-    var user: User?
+    var partnerUser: User?
     var messages = [Message]()
     let currentUserUid = Auth.auth().currentUser?.uid
     var partnerUid: String?
@@ -33,21 +33,35 @@ class MessagesViewController: UIViewController {
        return self.view as! MessagesView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
     
     fileprivate func configTableView() {
-        view().messageScene.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        view().messageScene.register(MessageCell.self, forCellReuseIdentifier: "cell")
+        view().messageScene.separatorStyle = .none
         view().messageScene.delegate = self
         view().messageScene.dataSource = self
     }
     
     fileprivate func observeMessages() {
         FirestoreManager.shared.recieveMessages(from: currentUserUid, to: partnerUid) { message in
-            self.messages.append(message)
-            self.sortMessages()
+            if !self.messages.contains(where: {$0.text == message.text && $0.date == message.date}) {
+                self.messages.append(message)
+                self.sortMessages()
+            }
         }
         FirestoreManager.shared.recieveMessages(from: partnerUid, to: currentUserUid) { message in
-            self.messages.append(message)
-            self.sortMessages()
+            if !self.messages.contains(where: {$0.text == message.text && $0.date == message.date}) {
+                self.messages.append(message)
+                self.sortMessages()
+            }
         }
     }
     
@@ -55,14 +69,15 @@ class MessagesViewController: UIViewController {
         messages = messages.sorted(by: {$0.date < $1.date})
         DispatchQueue.main.async {
             self.view().messageScene.reloadData()
+            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+            self.view().messageScene.scrollToRow(at: indexPath, at: .top, animated: true)
         }
     }
     
     fileprivate func configNavBar() {
-        guard let user = user else { return }
+        guard let user = partnerUser else { return }
 
         navigationItem.largeTitleDisplayMode = .never
-        tabBarController?.tabBar.isHidden = true
         let avatarView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
         let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
         image.loadImage(with: user.profileImageUrl)
@@ -81,8 +96,14 @@ class MessagesViewController: UIViewController {
     fileprivate func sendButtonDidTapped() {
         guard let text = view().messageCreator.messageField.text else { return }
         FirestoreManager.shared.sendMessageToFirebase(text: text, from: currentUserUid, to: partnerUid)
-        self.view().messageCreator.messageField.text = ""
-}
+        DispatchQueue.main.async {
+            if self.messages.count > 1 {
+                let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+                self.view().messageScene.scrollToRow(at: indexPath, at: .top, animated: true)
+            }
+            self.view().messageCreator.messageField.text = ""
+        }
+    }
     
 }
 
@@ -106,8 +127,10 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = messages[indexPath.row].text
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
+                                                 for: indexPath) as! MessageCell
+        cell.message = messages[indexPath.row]
+        cell.selectionStyle = .none
         return cell
     }
     

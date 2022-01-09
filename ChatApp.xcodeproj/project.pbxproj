@@ -10,6 +10,8 @@
 		25C4015B2B0C001FA540DE7C /* Pods_ChatApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33329E114118E3D7256179DF /* Pods_ChatApp.framework */; };
 		2D439035278321BC00455C6B /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D439034278321BC00455C6B /* LogInViewController.swift */; };
 		2D439037278321C900455C6B /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D439036278321C900455C6B /* LogInView.swift */; };
+		2D7CE05E278A03AB003E2FD2 /* InboxTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7CE05D278A03AB003E2FD2 /* InboxTableViewController.swift */; };
+		2D7CE060278A03CC003E2FD2 /* Inbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7CE05F278A03CC003E2FD2 /* Inbox.swift */; };
 		2D83CEC12784D07B001E38A7 /* ChatAppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D83CEC02784D07B001E38A7 /* ChatAppTabBarController.swift */; };
 		2D83CEC32784D17B001E38A7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D83CEC22784D17B001E38A7 /* Constants.swift */; };
 		2D83CEC52784D742001E38A7 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D83CEC42784D742001E38A7 /* ContactsTableViewController.swift */; };
@@ -24,6 +26,10 @@
 		2D96F33B2782303500AE71E0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96F33A2782303500AE71E0 /* SignUpViewController.swift */; };
 		2D96F33F2782307000AE71E0 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96F33E2782307000AE71E0 /* SignUpView.swift */; };
 		2D9805DA27859FBB0077F7F0 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9805D927859FBB0077F7F0 /* ContactsTableViewCell.swift */; };
+		2DDDE54E278ACE2C0039DE05 /* InboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDDE54D278ACE2C0039DE05 /* InboxCell.swift */; };
+		2DDDE551278B5DD60039DE05 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDDE550278B5DD60039DE05 /* SettingsTableViewController.swift */; };
+		2DDDE555278B64140039DE05 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDDE554278B64140039DE05 /* AvatarView.swift */; };
+		2DDDE557278B67480039DE05 /* LogOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDDE556278B67480039DE05 /* LogOutCell.swift */; };
 		2DE0BEC6278605A400D112BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BEC5278605A400D112BC /* User.swift */; };
 		2DE0BEC82787185A00D112BC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BEC72787185A00D112BC /* Extensions.swift */; };
 		2DE0BECC27871D7800D112BC /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BECB27871D7800D112BC /* MessagesViewController.swift */; };
@@ -37,6 +43,8 @@
 /* Begin PBXFileReference section */
 		2D439034278321BC00455C6B /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		2D439036278321C900455C6B /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		2D7CE05D278A03AB003E2FD2 /* InboxTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableViewController.swift; sourceTree = "<group>"; };
+		2D7CE05F278A03CC003E2FD2 /* Inbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inbox.swift; sourceTree = "<group>"; };
 		2D83CEC02784D07B001E38A7 /* ChatAppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAppTabBarController.swift; sourceTree = "<group>"; };
 		2D83CEC22784D17B001E38A7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2D83CEC42784D742001E38A7 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +61,10 @@
 		2D96F33A2782303500AE71E0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		2D96F33E2782307000AE71E0 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		2D9805D927859FBB0077F7F0 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
+		2DDDE54D278ACE2C0039DE05 /* InboxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxCell.swift; sourceTree = "<group>"; };
+		2DDDE550278B5DD60039DE05 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		2DDDE554278B64140039DE05 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		2DDDE556278B67480039DE05 /* LogOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutCell.swift; sourceTree = "<group>"; };
 		2DE0BEC5278605A400D112BC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2DE0BEC72787185A00D112BC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2DE0BECB27871D7800D112BC /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -96,14 +108,24 @@
 			path = LogIn;
 			sourceTree = "<group>";
 		};
+		2D7CE05C278A0389003E2FD2 /* InboxView */ = {
+			isa = PBXGroup;
+			children = (
+				2D7CE05D278A03AB003E2FD2 /* InboxTableViewController.swift */,
+				2DDDE54D278ACE2C0039DE05 /* InboxCell.swift */,
+			);
+			path = InboxView;
+			sourceTree = "<group>";
+		};
 		2D83CEBF2784D032001E38A7 /* ChatView */ = {
 			isa = PBXGroup;
 			children = (
 				2D83CEC02784D07B001E38A7 /* ChatAppTabBarController.swift */,
+				2DDDE552278B62840039DE05 /* SettingsView */,
+				2D7CE05C278A0389003E2FD2 /* InboxView */,
 				2DE0BECA27871D4D00D112BC /* MessagesView */,
 				2DE0BEC927871D3D00D112BC /* Contacts */,
-				2DE0BEC5278605A400D112BC /* User.swift */,
-				2DE0BED527886E8000D112BC /* Message.swift */,
+				2DDDE54F278B5B930039DE05 /* Model */,
 				2DE0BED72788718C00D112BC /* FirestoreManager.swift */,
 			);
 			path = ChatView;
@@ -163,6 +185,34 @@
 				2D96F33A2782303500AE71E0 /* SignUpViewController.swift */,
 			);
 			path = SignUp;
+			sourceTree = "<group>";
+		};
+		2DDDE54F278B5B930039DE05 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2DE0BEC5278605A400D112BC /* User.swift */,
+				2D7CE05F278A03CC003E2FD2 /* Inbox.swift */,
+				2DE0BED527886E8000D112BC /* Message.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2DDDE552278B62840039DE05 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				2DDDE550278B5DD60039DE05 /* SettingsTableViewController.swift */,
+				2DDDE554278B64140039DE05 /* AvatarView.swift */,
+				2DDDE553278B628F0039DE05 /* Cells */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		2DDDE553278B628F0039DE05 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2DDDE556278B67480039DE05 /* LogOutCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		2DE0BEC927871D3D00D112BC /* Contacts */ = {
@@ -316,16 +366,22 @@
 				2D96F3272781AAAA00AE71E0 /* WelcomeViewController.swift in Sources */,
 				2D96F3232781AAAA00AE71E0 /* AppDelegate.swift in Sources */,
 				2DE0BED427871F6300D112BC /* MessageCreatorView.swift in Sources */,
+				2D7CE05E278A03AB003E2FD2 /* InboxTableViewController.swift in Sources */,
+				2DDDE555278B64140039DE05 /* AvatarView.swift in Sources */,
 				2D96F3252781AAAA00AE71E0 /* SceneDelegate.swift in Sources */,
 				2D83CEC12784D07B001E38A7 /* ChatAppTabBarController.swift in Sources */,
+				2DDDE54E278ACE2C0039DE05 /* InboxCell.swift in Sources */,
 				2D83CEC52784D742001E38A7 /* ContactsTableViewController.swift in Sources */,
+				2DDDE557278B67480039DE05 /* LogOutCell.swift in Sources */,
 				2D439035278321BC00455C6B /* LogInViewController.swift in Sources */,
 				2D83CEC32784D17B001E38A7 /* Constants.swift in Sources */,
 				2D96F3372781B01400AE71E0 /* WelcomeView.swift in Sources */,
 				2D9805DA27859FBB0077F7F0 /* ContactsTableViewCell.swift in Sources */,
 				2D96F33F2782307000AE71E0 /* SignUpView.swift in Sources */,
+				2D7CE060278A03CC003E2FD2 /* Inbox.swift in Sources */,
 				2D439037278321C900455C6B /* LogInView.swift in Sources */,
 				2D96F33B2782303500AE71E0 /* SignUpViewController.swift in Sources */,
+				2DDDE551278B5DD60039DE05 /* SettingsTableViewController.swift in Sources */,
 				2DE0BED627886E8000D112BC /* Message.swift in Sources */,
 				2DE0BEC82787185A00D112BC /* Extensions.swift in Sources */,
 				2DE0BED227871E0200D112BC /* MessageCell.swift in Sources */,

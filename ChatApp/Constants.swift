@@ -20,11 +20,18 @@ struct Constants {
     struct Firestore {
         static let usersCollectionName: String = "users"
         static let messagesCollectionName: String = "messages"
+        static let inboxCollectionName: String = "inbox"
 
     }
     
     struct Colors {
         static let grayBackground: UIColor = UIColor(white: 0.9, alpha: 1)
+    }
+    
+    struct CellIds {
+        static let logOutCellId: String = "logoutCell"
+        static let emailCellId: String = "emailCell"
+        static let statusCellId: String = "statusCell"
     }
     
 }

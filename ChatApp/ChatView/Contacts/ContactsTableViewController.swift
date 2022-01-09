@@ -16,12 +16,22 @@ class ContactsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOut))
+        configTableView()
+        fetchUsers()
+    }
+    
+    fileprivate func configTableView() {
         tableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOut))
+    }
+    
+    fileprivate func fetchUsers() {
         FirestoreManager.shared.fetchUsers { user in
-            self.users.append(user)
-            self.tableView.reloadData()
+            if user.uid != FirestoreManager.shared.auth.currentUser?.uid ?? "" {
+                self.users.append(user)
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -56,7 +66,7 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let partnertUser = users[indexPath.row]
         let chatVC = MessagesViewController()
-        chatVC.user = partnertUser
+        chatVC.partnerUser = partnertUser
         chatVC.partnerUid = partnertUser.uid
         navigationController?.pushViewController(chatVC, animated: true)
     }

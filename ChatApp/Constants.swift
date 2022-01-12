@@ -29,6 +29,7 @@ struct Constants {
     }
     
     struct CellIds {
+        static let inboxCell = "inboxCell"
         static let logOutCellId: String = "logoutCell"
         static let emailCellId: String = "emailCell"
         static let statusCellId: String = "statusCell"

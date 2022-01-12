@@ -57,23 +57,23 @@ extension Date {
                 return "Yesterday"
             }
         } else if (components.hour! >= 2) {
-            return "\(components.hour!) hours ago"
+            return "\(components.hour!)h ago"
         } else if (components.hour! >= 1){
             if (numericDates){
-                return "1 hour ago"
+                return "1h ago"
             } else {
                 return "An hour ago"
             }
         } else if (components.minute! >= 2) {
-            return "\(components.minute!) minutes ago"
+            return "\(components.minute!)m ago"
         } else if (components.minute! >= 1){
             if (numericDates){
-                return "1 minute ago"
+                return "1m ago"
             } else {
-                return "A minute ago"
+                return "A min ago"
             }
         } else if (components.second! >= 3) {
-            return "\(components.second!) seconds ago"
+            return "\(components.second!) sec ago"
         } else {
             return "Just now"
         }

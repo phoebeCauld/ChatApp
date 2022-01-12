@@ -141,12 +141,23 @@ class FirestoreManager {
         saveToInbox(from: currentUserUid, to: partnerUid, dict: dict)
     }
     
+//    fileprivate func saveToInbox(from: String, to: String, dict: [String: Any]) {
+//        let refFrom = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(from).child(to)
+//        refFrom.updateChildValues(dict)
+//
+//        let refTo = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(to).child(from)
+//        refTo.updateChildValues(dict)
+//    }
+    
     fileprivate func saveToInbox(from: String, to: String, dict: [String: Any]) {
-        let refFrom = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(from).child(to)
-        refFrom.updateChildValues(dict)
-        
-        let refTo = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(to).child(from)
-        refTo.updateChildValues(dict)
+
+        db.collection(Constants.Firestore.inboxCollectionName).document(from).collection("ressentMessages").document(to).setData(dict)
+        db.collection(Constants.Firestore.inboxCollectionName).document(to).collection("ressentMessages").document(from).setData(dict)
+//        let refFrom = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(from).child(to)
+//        refFrom.updateChildValues(dict)
+//
+//        let refTo = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(to).child(from)
+//        refTo.updateChildValues(dict)
     }
     
     func recieveMessages(from: String?, to: String?,
@@ -197,17 +208,51 @@ class FirestoreManager {
         return message
     }
     
+//    func recieveInboxMessages(uid: String, onSuccess: @escaping ((Inbox) -> Void)) {
+//        let ref = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(uid)
+//        ref.observe(.childAdded) { snapshot in
+//            if let dict = snapshot.value as? [String: Any] {
+//                self.getUser(uid: snapshot.key) { user in
+//                    guard  let inbox = self.transformInbox(dict: dict, user: user) else { return }
+//                    onSuccess(inbox)
+//                }
+//            }
+//        }
+//    }
+    
     func recieveInboxMessages(uid: String, onSuccess: @escaping ((Inbox) -> Void)) {
-        let ref = Database.database().reference().child(Constants.Firestore.inboxCollectionName).child(uid)
-        ref.observe(DataEventType.childAdded) { snapshot in
-            if let dict = snapshot.value as? [String: Any] {
-                self.getUser(uid: snapshot.key) { user in
-                    guard  let inbox = self.transformInbox(dict: dict, user: user) else { return }
-                    onSuccess(inbox)
-                }
+        let ref = db.collection(Constants.Firestore.inboxCollectionName).document(uid).collection("ressentMessages")
+        ref.addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Document does not exist: \(error.localizedDescription)")
+                return
             }
+            snapshot?.documentChanges.forEach({ (change) in
+                if change.type == .added || change.type == .modified {
+                    guard let documents = snapshot?.documents else { return }
+                    for document in documents {
+                        let data = document.data()
+                            guard let uidFrom = data["from"] as? String else { return }
+                            guard let uidTo = data["to"] as? String else { return }
+
+                        if self.auth.currentUser?.uid == uidFrom {
+                            self.getUser(uid: uidTo) { user in
+                                guard let inbox = self.transformInbox(dict: data, user: user) else { return }
+                                        onSuccess(inbox)
+                            }
+                        } else {
+                            self.getUser(uid: uidFrom) { user in
+                                guard let inbox = self.transformInbox(dict: data, user: user) else { return }
+                                        onSuccess(inbox)
+                            }
+                        }
+
+                    }
+                }
+            })
         }
     }
+    
     
     func getUser(uid: String, onSuccess: @escaping ((User) -> Void)) {
         let docRef = Firestore.firestore().collection(Constants.Firestore.usersCollectionName).document(uid)

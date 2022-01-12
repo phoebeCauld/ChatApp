@@ -13,6 +13,7 @@ class AvatarView: UIView {
         let avatar = UIImageView()
         avatar.layer.cornerRadius = ConstantsForAvatar.avatarSize/2
         avatar.clipsToBounds = true
+        avatar.image = UIImage(named: "camera")
         avatar.contentMode = .scaleAspectFill
         return avatar
     }()

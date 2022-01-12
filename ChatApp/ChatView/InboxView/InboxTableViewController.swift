@@ -8,7 +8,7 @@
 import UIKit
 
 class InboxTableViewController: UITableViewController {
-    let cellId = "inboxCell"
+    var inboxDict = [String: Inbox]()
     var userInbox = [Inbox]()
     let currentUser = FirestoreManager.shared.auth.currentUser
     override func viewDidLoad() {
@@ -18,53 +18,66 @@ class InboxTableViewController: UITableViewController {
         configNavBar()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        userInbox = []
-        observeInbox()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+////        userInbox = []
+//        observeInbox()
+//    }
     
     fileprivate func observeInbox() {
         guard let currentUserUid = currentUser?.uid else { return }
         FirestoreManager.shared.recieveInboxMessages(uid: currentUserUid) { inbox in
-            if !self.userInbox.contains(where: { $0.user.uid == inbox.user.uid}) {
-                self.userInbox.append(inbox)
-                self.sortedInbox()
-            }
+            self.inboxDict[inbox.user.uid] = inbox
+            self.sortedInbox()
+//            if !self.userInbox.contains(where: { $0.user.uid == inbox.user.uid}) {
+//                self.userInbox.append(inbox)
+//                self.sortedInbox()
+//            } else {
+//                guard let index = self.userInbox.firstIndex(where: { $0.user.uid == inbox.user.uid}) else { return }
+//                self.userInbox.remove(at: index)
+//                self.userInbox.append(inbox)
+//                self.sortedInbox()
+//            }
         }
     }
     
     fileprivate func sortedInbox() {
-        userInbox = userInbox.sorted(by: {$0.date > $1.date})
+        userInbox = inboxDict.values.sorted(by: {$0.date > $1.date})
+//        userInbox = userInbox.sorted(by: {$0.date > $1.date})
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
     fileprivate func configTableView() {
-        tableView.register(InboxCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(InboxCell.self, forCellReuseIdentifier: Constants.CellIds.inboxCell)
         tableView.separatorStyle = .none
     }
     
     fileprivate func configNavBar() {
-        let avatarView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
+        let button = createAvatarButton()
+        let avatarButton = UIBarButtonItem(customView: button)
+        navigationItem.rightBarButtonItem = avatarButton
+    }
+    
+    fileprivate func createAvatarButton() -> UIButton {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
         let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
+        
         FirestoreManager.shared.getUser(uid: currentUser?.uid ?? "") { user in
             image.loadImage(with: user.profileImageUrl)
         }
-        image.layer.cornerRadius = 18
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        avatarView.addSubview(image)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
-        let gesture = UIGestureRecognizer()
-        gesture.addTarget(self, action: #selector(openSettingsView))
-        avatarView.isUserInteractionEnabled = true
-        avatarView.addGestureRecognizer(gesture)
+        button.layer.cornerRadius = 18
+        button.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+        button.addSubview(image)
+        button.addTarget(self, action: #selector(openSettingsView), for: .touchUpInside)
+        return button
     }
     
     @objc fileprivate func openSettingsView() {
-        let settingsVC = SettingsTableViewController()
+        let settingsVC = SettingsTableViewController(style: .grouped)
+        settingsVC.view.backgroundColor = Constants.Colors.grayBackground
         navigationController?.pushViewController(settingsVC, animated: true)
     }
 
@@ -76,7 +89,8 @@ class InboxTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! InboxCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIds.inboxCell,
+                                                 for: indexPath) as! InboxCell
         let inbox = userInbox[indexPath.row]
         cell.inboxInfo = inbox
         return cell

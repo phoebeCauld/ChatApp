@@ -56,7 +56,9 @@ class InboxCell: UITableViewCell {
     }
     
     private func configCellView(){
-        let messageStack = UIStackView(arrangedSubviews: [UIStackView(arrangedSubviews: [userNameLabel, timeLabel]),
+        let nameTimeStack = UIStackView(arrangedSubviews: [userNameLabel, timeLabel])
+        nameTimeStack.alignment = .center
+        let messageStack = UIStackView(arrangedSubviews: [nameTimeStack,
                                                           messageLabel])
         messageStack.axis = .vertical
         let stack = UIStackView(arrangedSubviews: [avatarImage,
@@ -83,7 +85,7 @@ class InboxCell: UITableViewCell {
             separatorView.widthAnchor.constraint(equalToConstant: contentView.frame.size.width),
             separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                     constant: -InboxCellConst.insets),
-            separatorView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 15),
+            separatorView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: InboxCellConst.insets),
             separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
     }

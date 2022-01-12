@@ -24,7 +24,6 @@ class MessagesViewController: UIViewController {
         view().messageCreator.messageField.delegate = self
         view().backgroundColor = Constants.Colors.grayBackground
         view().messageCreator.sendAction = sendButtonDidTapped
-        observeMessages()
         configTableView()
         configNavBar()
     }
@@ -36,6 +35,7 @@ class MessagesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        observeMessages()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

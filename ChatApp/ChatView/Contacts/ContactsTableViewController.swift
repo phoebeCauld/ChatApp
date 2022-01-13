@@ -27,8 +27,8 @@ class ContactsTableViewController: UITableViewController {
     }
     
     fileprivate func fetchUsers() {
-        FirestoreManager.shared.fetchUsers { user in
-            if user.uid != FirestoreManager.shared.auth.currentUser?.uid ?? "" {
+        FirestoreManager.shared.userManager.fetchUsers { user in
+            if user.uid != Constants.FirestoreConst.auth.currentUser?.uid ?? "" {
                 self.users.append(user)
                 self.tableView.reloadData()
             }

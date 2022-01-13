@@ -17,6 +17,7 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
         view().closeAction = closeButtonPressed
         view().logInAction = logInPressed
+        view().emailTF.becomeFirstResponder()
     }
 
     private func view() -> LogInView {
@@ -24,7 +25,7 @@ class LogInViewController: UIViewController {
     }
     
     private func logInPressed(_ email: String, _ password: String) {
-        FirestoreManager.shared.logIn(email, password) { error in
+        FirestoreManager.shared.loginManager.logIn(email, password) { error in
             self.view().addErrorLabels(for: UITextField(), error: error.localizedDescription)
         }
     }
@@ -32,6 +33,9 @@ class LogInViewController: UIViewController {
     private func closeButtonPressed() {
         self.dismiss(animated: true)
     }
-    
+}
 
+
+extension LogInViewController: UITextFieldDelegate {
+    
 }

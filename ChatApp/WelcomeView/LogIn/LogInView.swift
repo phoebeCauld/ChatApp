@@ -59,7 +59,6 @@ class LogInView: UIView {
         textField.leftView = spacerView
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
-//        textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textField.autocorrectionType = .no
         return textField
     }()

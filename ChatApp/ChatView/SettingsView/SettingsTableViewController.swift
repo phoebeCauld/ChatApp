@@ -11,28 +11,28 @@ class SettingsTableViewController: UITableViewController {
 
     private let cellId = "cellID"
     var currentUser: User?
-
+    let headerView = AvatarView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 200))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getUser()
         configTableView()
     }
-    
+
     fileprivate func configTableView() {
+        tableView.tableHeaderView = headerView
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.register(LogOutCell.self, forCellReuseIdentifier: Constants.CellIds.logOutCellId)
     }
     
     fileprivate func configHeaderView() {
-        let headerView = AvatarView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200))
         headerView.userNameLabel.text = currentUser?.userName
         headerView.avatarView.loadImage(with: currentUser?.profileImageUrl)
-        tableView.tableHeaderView = headerView
     }
     
     fileprivate func getUser() {
-        guard let currentUserUid = FirestoreManager.shared.auth.currentUser?.uid else { return }
-        FirestoreManager.shared.getUser(uid: currentUserUid) { user in
+        guard let currentUserUid = Constants.FirestoreConst.auth.currentUser?.uid else { return }
+        FirestoreManager.shared.messageManager.getUser(uid: currentUserUid) { user in
             self.currentUser = user
             DispatchQueue.main.async {
                 self.configHeaderView()
@@ -57,7 +57,6 @@ class SettingsTableViewController: UITableViewController {
             fatalError()
         }
     }
-
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {

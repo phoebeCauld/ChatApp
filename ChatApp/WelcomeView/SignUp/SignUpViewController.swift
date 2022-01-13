@@ -17,6 +17,7 @@ class SignUpViewController: UIViewController {
         view().signUpAction = signUpPressed
         view().closeAction = closeButtonPressed
         view().presentPicker = presentPicker
+        view().nicknameTF.becomeFirstResponder()
     }
     
     fileprivate func view() -> SignUpView {
@@ -24,7 +25,7 @@ class SignUpViewController: UIViewController {
     }
 
     fileprivate func signUpPressed(userName: String, email: String, password: String) {
-        FirestoreManager.shared.registerUser(email, password, userName,
+        FirestoreManager.shared.signUpManager.registerUser(email, password, userName,
                                              image: view().avatarImage.image) { error in
             self.view().addErrorLabels(for: UITextField(), error: error.localizedDescription)
         }

@@ -10,23 +10,17 @@ import UIKit
 class InboxTableViewController: UITableViewController {
     var inboxDict = [String: Inbox]()
     var userInbox = [Inbox]()
-    let currentUser = FirestoreManager.shared.auth.currentUser
+    let currentUser = Constants.FirestoreConst.auth.currentUser
     override func viewDidLoad() {
         super.viewDidLoad()
         observeInbox()
         configTableView()
         configNavBar()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-////        userInbox = []
-//        observeInbox()
-//    }
-    
+
     fileprivate func observeInbox() {
         guard let currentUserUid = currentUser?.uid else { return }
-        FirestoreManager.shared.recieveInboxMessages(uid: currentUserUid) { inbox in
+        FirestoreManager.shared.messageManager.recieveInboxMessages(uid: currentUserUid) { inbox in
             self.inboxDict[inbox.user.uid] = inbox
             self.sortedInbox()
 //            if !self.userInbox.contains(where: { $0.user.uid == inbox.user.uid}) {
@@ -64,7 +58,7 @@ class InboxTableViewController: UITableViewController {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
         let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
         
-        FirestoreManager.shared.getUser(uid: currentUser?.uid ?? "") { user in
+        FirestoreManager.shared.messageManager.getUser(uid: currentUser?.uid ?? "") { user in
             image.loadImage(with: user.profileImageUrl)
         }
         button.layer.cornerRadius = 18

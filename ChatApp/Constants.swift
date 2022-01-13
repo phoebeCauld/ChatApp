@@ -5,8 +5,9 @@
 //  Created by F1xTeoNtTsS on 04.01.2022.
 //
 
-import Foundation
 import UIKit
+import Firebase
+import FirebaseDatabase
 
 struct Constants {
     struct Images {
@@ -17,10 +18,13 @@ struct Constants {
         static let sendButton: String = "arrow.up.circle.fill"
     }
     
-    struct Firestore {
+    struct FirestoreConst {
+        static let db = Firestore.firestore()
+        static let auth = Auth.auth()
         static let usersCollectionName: String = "users"
         static let messagesCollectionName: String = "messages"
         static let inboxCollectionName: String = "inbox"
+        static let recentMessegeCollectionName: String = "ressentMessages"
 
     }
     

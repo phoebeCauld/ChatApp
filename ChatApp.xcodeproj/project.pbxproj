@@ -38,6 +38,10 @@
 		2DE0BED427871F6300D112BC /* MessageCreatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BED327871F6300D112BC /* MessageCreatorView.swift */; };
 		2DE0BED627886E8000D112BC /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BED527886E8000D112BC /* Message.swift */; };
 		2DE0BED82788718C00D112BC /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BED72788718C00D112BC /* FirestoreManager.swift */; };
+		2DE7BF932790AF94001A7EBC /* LogInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF922790AF94001A7EBC /* LogInManager.swift */; };
+		2DE7BF982790B155001A7EBC /* SignUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF972790B155001A7EBC /* SignUpManager.swift */; };
+		2DE7BF9A2790B2A6001A7EBC /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF992790B2A6001A7EBC /* UserManager.swift */; };
+		2DE7BF9C2790B2FB001A7EBC /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF9B2790B2FB001A7EBC /* MessageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +77,10 @@
 		2DE0BED327871F6300D112BC /* MessageCreatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCreatorView.swift; sourceTree = "<group>"; };
 		2DE0BED527886E8000D112BC /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2DE0BED72788718C00D112BC /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		2DE7BF922790AF94001A7EBC /* LogInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInManager.swift; sourceTree = "<group>"; };
+		2DE7BF972790B155001A7EBC /* SignUpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpManager.swift; sourceTree = "<group>"; };
+		2DE7BF992790B2A6001A7EBC /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		2DE7BF9B2790B2FB001A7EBC /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		33329E114118E3D7256179DF /* Pods_ChatApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E4807C87164ECFF85F4D5F6 /* Pods-ChatApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp.release.xcconfig"; path = "Target Support Files/Pods-ChatApp/Pods-ChatApp.release.xcconfig"; sourceTree = "<group>"; };
 		D3E7087F18C66BE379621E7E /* Pods-ChatApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp/Pods-ChatApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,8 +110,8 @@
 		2D439038278321CE00455C6B /* LogIn */ = {
 			isa = PBXGroup;
 			children = (
-				2D439036278321C900455C6B /* LogInView.swift */,
 				2D439034278321BC00455C6B /* LogInViewController.swift */,
+				2D439036278321C900455C6B /* LogInView.swift */,
 			);
 			path = LogIn;
 			sourceTree = "<group>";
@@ -127,6 +135,10 @@
 				2DE0BEC927871D3D00D112BC /* Contacts */,
 				2DDDE54F278B5B930039DE05 /* Model */,
 				2DE0BED72788718C00D112BC /* FirestoreManager.swift */,
+				2DE7BF972790B155001A7EBC /* SignUpManager.swift */,
+				2DE7BF922790AF94001A7EBC /* LogInManager.swift */,
+				2DE7BF992790B2A6001A7EBC /* UserManager.swift */,
+				2DE7BF9B2790B2FB001A7EBC /* MessageManager.swift */,
 			);
 			path = ChatView;
 			sourceTree = "<group>";
@@ -170,8 +182,8 @@
 		2D96F33C2782303C00AE71E0 /* WelcomeView */ = {
 			isa = PBXGroup;
 			children = (
-				2D96F3362781B01400AE71E0 /* WelcomeView.swift */,
 				2D96F3262781AAAA00AE71E0 /* WelcomeViewController.swift */,
+				2D96F3362781B01400AE71E0 /* WelcomeView.swift */,
 				2D439038278321CE00455C6B /* LogIn */,
 				2D96F33D2782304900AE71E0 /* SignUp */,
 			);
@@ -181,8 +193,8 @@
 		2D96F33D2782304900AE71E0 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
-				2D96F33E2782307000AE71E0 /* SignUpView.swift */,
 				2D96F33A2782303500AE71E0 /* SignUpViewController.swift */,
+				2D96F33E2782307000AE71E0 /* SignUpView.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -364,6 +376,9 @@
 				2DE0BECC27871D7800D112BC /* MessagesViewController.swift in Sources */,
 				2DE0BEC6278605A400D112BC /* User.swift in Sources */,
 				2D96F3272781AAAA00AE71E0 /* WelcomeViewController.swift in Sources */,
+				2DE7BF982790B155001A7EBC /* SignUpManager.swift in Sources */,
+				2DE7BF9C2790B2FB001A7EBC /* MessageManager.swift in Sources */,
+				2DE7BF932790AF94001A7EBC /* LogInManager.swift in Sources */,
 				2D96F3232781AAAA00AE71E0 /* AppDelegate.swift in Sources */,
 				2DE0BED427871F6300D112BC /* MessageCreatorView.swift in Sources */,
 				2D7CE05E278A03AB003E2FD2 /* InboxTableViewController.swift in Sources */,
@@ -375,6 +390,7 @@
 				2DDDE557278B67480039DE05 /* LogOutCell.swift in Sources */,
 				2D439035278321BC00455C6B /* LogInViewController.swift in Sources */,
 				2D83CEC32784D17B001E38A7 /* Constants.swift in Sources */,
+				2DE7BF9A2790B2A6001A7EBC /* UserManager.swift in Sources */,
 				2D96F3372781B01400AE71E0 /* WelcomeView.swift in Sources */,
 				2D9805DA27859FBB0077F7F0 /* ContactsTableViewCell.swift in Sources */,
 				2D96F33F2782307000AE71E0 /* SignUpView.swift in Sources */,

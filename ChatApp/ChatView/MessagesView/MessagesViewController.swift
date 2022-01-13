@@ -51,13 +51,13 @@ class MessagesViewController: UIViewController {
     }
     
     fileprivate func observeMessages() {
-        FirestoreManager.shared.recieveMessages(from: currentUserUid, to: partnerUid) { message in
+        FirestoreManager.shared.messageManager.recieveMessages(from: currentUserUid, to: partnerUid) { message in
             if !self.messages.contains(where: {$0.text == message.text && $0.date == message.date}) {
                 self.messages.append(message)
                 self.sortMessages()
             }
         }
-        FirestoreManager.shared.recieveMessages(from: partnerUid, to: currentUserUid) { message in
+        FirestoreManager.shared.messageManager.recieveMessages(from: partnerUid, to: currentUserUid) { message in
             if !self.messages.contains(where: {$0.text == message.text && $0.date == message.date}) {
                 self.messages.append(message)
                 self.sortMessages()
@@ -95,7 +95,7 @@ class MessagesViewController: UIViewController {
     
     fileprivate func sendButtonDidTapped() {
         guard let text = view().messageCreator.messageField.text else { return }
-        FirestoreManager.shared.sendMessageToFirebase(text: text, from: currentUserUid, to: partnerUid)
+        FirestoreManager.shared.messageManager.sendMessageToFirebase(text: text, from: currentUserUid, to: partnerUid)
         DispatchQueue.main.async {
             if self.messages.count > 1 {
                 let indexPath = IndexPath(row: self.messages.count-1, section: 0)

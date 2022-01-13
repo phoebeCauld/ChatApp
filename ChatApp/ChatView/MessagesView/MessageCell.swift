@@ -104,7 +104,7 @@ class MessageCell: UITableViewCell {
     
     func configView(from: String, text: String) {
         
-        if message.from != FirestoreManager.shared.auth.currentUser?.uid {
+        if message.from != Constants.FirestoreConst.auth.currentUser?.uid {
             partnerAvatar.isHidden = false
             currentUserConstraints.forEach {$0.isActive = false}
             partnerConstraints.forEach {$0.isActive = true}

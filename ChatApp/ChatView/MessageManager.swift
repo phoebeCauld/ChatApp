@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MessageManager {
     
@@ -37,13 +38,14 @@ class MessageManager {
     }
     
     func recieveMessages(from: String?, to: String?,
-                         onSuccess: @escaping ((Message) -> Void)) {
+                         onSuccess: @escaping ((Message) -> Void),
+                         listener: @escaping ((ListenerRegistration) -> Void)) {
         guard let from = from else { return }
         guard let to = to else { return }
         
         let docRef = Constants.FirestoreConst.db
             .collection(Constants.FirestoreConst.messagesCollectionName).document(from).collection(to)
-        docRef.addSnapshotListener { snapshot, error in
+        let snapshotListener = docRef.addSnapshotListener { snapshot, error in
             if let error = error {
                 print("Document does not exist: \(error.localizedDescription)")
                 return
@@ -56,6 +58,7 @@ class MessageManager {
                 }
             }
         }
+        listener(snapshotListener)
     }
     
     func recieveInboxMessages(uid: String, onSuccess: @escaping ((Inbox) -> Void)) {

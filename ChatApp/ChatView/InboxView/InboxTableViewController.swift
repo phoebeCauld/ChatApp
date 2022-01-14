@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Firebase
 
 class InboxTableViewController: UITableViewController {
+
     var inboxDict = [String: Inbox]()
     var userInbox = [Inbox]()
     let currentUser = Constants.FirestoreConst.auth.currentUser
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         observeInbox()
@@ -93,7 +97,6 @@ class InboxTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatVC = MessagesViewController()
         chatVC.partnerUser = userInbox[indexPath.row].user
-        chatVC.partnerUid = userInbox[indexPath.row].user.uid
         navigationController?.pushViewController(chatVC, animated: true)
     }
 }

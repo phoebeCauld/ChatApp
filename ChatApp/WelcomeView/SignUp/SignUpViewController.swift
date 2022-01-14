@@ -28,6 +28,8 @@ class SignUpViewController: UIViewController {
         FirestoreManager.shared.signUpManager.registerUser(email, password, userName,
                                              image: view().avatarImage.image) { error in
             self.view().addErrorLabels(for: UITextField(), error: error.localizedDescription)
+        } onSuccess: {
+            FirestoreManager.shared.userManager.isOnline(status: true)
         }
     }
     

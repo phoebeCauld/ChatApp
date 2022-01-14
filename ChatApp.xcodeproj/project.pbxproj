@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		25C4015B2B0C001FA540DE7C /* Pods_ChatApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33329E114118E3D7256179DF /* Pods_ChatApp.framework */; };
+		2D24B3112791C9EA006D684F /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D24B3102791C9EA006D684F /* UserStatus.swift */; };
 		2D439035278321BC00455C6B /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D439034278321BC00455C6B /* LogInViewController.swift */; };
 		2D439037278321C900455C6B /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D439036278321C900455C6B /* LogInView.swift */; };
 		2D7CE05E278A03AB003E2FD2 /* InboxTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7CE05D278A03AB003E2FD2 /* InboxTableViewController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D24B3102791C9EA006D684F /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatus.swift; sourceTree = "<group>"; };
 		2D439034278321BC00455C6B /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		2D439036278321C900455C6B /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		2D7CE05D278A03AB003E2FD2 /* InboxTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableViewController.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				2DE0BEC5278605A400D112BC /* User.swift */,
+				2D24B3102791C9EA006D684F /* UserStatus.swift */,
 				2D7CE05F278A03CC003E2FD2 /* Inbox.swift */,
 				2DE0BED527886E8000D112BC /* Message.swift */,
 			);
@@ -373,6 +376,7 @@
 			files = (
 				2DE0BECE27871DBB00D112BC /* MessagesView.swift in Sources */,
 				2DE0BED82788718C00D112BC /* FirestoreManager.swift in Sources */,
+				2D24B3112791C9EA006D684F /* UserStatus.swift in Sources */,
 				2DE0BECC27871D7800D112BC /* MessagesViewController.swift in Sources */,
 				2DE0BEC6278605A400D112BC /* User.swift in Sources */,
 				2D96F3272781AAAA00AE71E0 /* WelcomeViewController.swift in Sources */,

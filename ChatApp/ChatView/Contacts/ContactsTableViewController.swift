@@ -36,12 +36,12 @@ class ContactsTableViewController: UITableViewController {
     }
     
     @objc fileprivate func logOut() {
+        FirestoreManager.shared.userManager.isOnline(status: false)
         do {
             try Auth.auth().signOut()
         } catch let error as NSError {
             print("logOut action failed with: \(error.localizedDescription)")
         }
-        
         // меняет экран
         let scene = UIApplication.shared.connectedScenes.first
         if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {
@@ -67,7 +67,6 @@ class ContactsTableViewController: UITableViewController {
         let partnertUser = users[indexPath.row]
         let chatVC = MessagesViewController()
         chatVC.partnerUser = partnertUser
-        chatVC.partnerUid = partnertUser.uid
         navigationController?.pushViewController(chatVC, animated: true)
     }
 }

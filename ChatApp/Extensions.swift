@@ -79,3 +79,24 @@ extension Date {
         }
     }
 }
+
+
+extension Double {
+    func convertToTimeString() -> String {
+        var stringTime = ""
+        let date = Date(timeIntervalSince1970: self)
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        if calendar.isDateInToday(date) {
+            stringTime = ""
+            formatter.timeStyle = .short
+        } else if calendar.isDateInYesterday(date) {
+            stringTime = "yesterday at"
+            formatter.timeStyle = .short
+        } else {
+            formatter.timeStyle = .short
+        }
+        let stringDate = formatter.string(from: date)
+        return stringTime + stringDate
+    }
+}

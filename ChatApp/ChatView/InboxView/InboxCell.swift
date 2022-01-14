@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class InboxCell: UITableViewCell {
     
@@ -15,8 +16,11 @@ class InboxCell: UITableViewCell {
             avatarImage.loadImage(with: inboxInfo.user.profileImageUrl)
             messageLabel.text = inboxInfo.text
             setTimeLabel(time: inboxInfo.date)
+            setActivityStatus(userUid: inboxInfo.user.uid)
         }
     }
+    
+    var activityListener: ListenerRegistration?
     
     let avatarImage: UIImageView = {
         let avatar = UIImageView()
@@ -49,6 +53,16 @@ class InboxCell: UITableViewCell {
         label.font = .systemFont(ofSize: 17)
         return label
     }()
+    
+    let statusCheckView: UIView = {
+        let statusView = UIView()
+        statusView.layer.cornerRadius = 7.5
+        statusView.layer.borderColor = UIColor.white.cgColor
+        statusView.layer.borderWidth = 1.5
+        statusView.backgroundColor = .systemRed
+        statusView.clipsToBounds = true
+        return statusView
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -56,6 +70,7 @@ class InboxCell: UITableViewCell {
     }
     
     private func configCellView(){
+        statusCheckView.translatesAutoresizingMaskIntoConstraints = false
         let nameTimeStack = UIStackView(arrangedSubviews: [userNameLabel, timeLabel])
         nameTimeStack.alignment = .center
         let messageStack = UIStackView(arrangedSubviews: [nameTimeStack,
@@ -70,8 +85,9 @@ class InboxCell: UITableViewCell {
         let separatorView = UIView()
         separatorView.backgroundColor = UIColor(white: 0.8, alpha: 0.7)
         separatorView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(separatorView)
-        
+        self.contentView.addSubview(separatorView)
+        self.contentView.addSubview(statusCheckView)
+
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: contentView.topAnchor,
                                        constant: InboxCellConst.insets),
@@ -86,7 +102,11 @@ class InboxCell: UITableViewCell {
             separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                     constant: -InboxCellConst.insets),
             separatorView.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: InboxCellConst.insets),
-            separatorView.heightAnchor.constraint(equalToConstant: 0.5)
+            separatorView.heightAnchor.constraint(equalToConstant: 0.5),
+            statusCheckView.bottomAnchor.constraint(equalTo: avatarImage.bottomAnchor),
+            statusCheckView.trailingAnchor.constraint(equalTo: avatarImage.trailingAnchor),
+            statusCheckView.widthAnchor.constraint(equalToConstant: 15),
+            statusCheckView.heightAnchor.constraint(equalToConstant: 15)
         ])
     }
     
@@ -95,7 +115,23 @@ class InboxCell: UITableViewCell {
         let dateString = Date().timeAgoSince(date, from: Date(), numericDates: true)
         timeLabel.text = dateString
     }
-    
+    func setActivityStatus(userUid: String) {
+//        FirestoreManager.shared.userManager.observeActivity(userUid: userUid) { status, latestActivity in
+//            if status {
+//                self.statusCheckView.backgroundColor = .systemGreen
+//            } else {
+//                self.statusCheckView.backgroundColor = .systemRed
+//            }
+//        } listener: {_ in nil}
+//    }
+        FirestoreManager.shared.userManager.observeActivity(userUid: userUid, onSuccess: {status, latestActivity in
+            if status {
+                self.statusCheckView.backgroundColor = .systemGreen
+            } else {
+                self.statusCheckView.backgroundColor = .systemRed
+            }
+        }, listener: nil)
+    }
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -103,5 +139,5 @@ class InboxCell: UITableViewCell {
 
 struct InboxCellConst {
     static let insets: CGFloat = 10
-    static let avatarSize: CGFloat = 40
+    static let avatarSize: CGFloat = 60
 }

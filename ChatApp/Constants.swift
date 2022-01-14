@@ -25,7 +25,7 @@ struct Constants {
         static let messagesCollectionName: String = "messages"
         static let inboxCollectionName: String = "inbox"
         static let recentMessegeCollectionName: String = "ressentMessages"
-
+        static let isOnlinCollectionName: String = "isOnline"
     }
     
     struct Colors {

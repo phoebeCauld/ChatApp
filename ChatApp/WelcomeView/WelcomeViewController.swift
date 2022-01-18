@@ -14,23 +14,22 @@ class WelcomeViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view().logInAction = logInPressed
-        view().getStartedAction = getStartedPressed
+        view().delegate = self
     }
     
     func view() -> WelcomeView {
        return self.view as! WelcomeView
     }
-    
-    private func getStartedPressed() {
-        let signUpVC = SignUpViewController()
-        navigationController?.present(signUpVC, animated: true)
-//        navigationController?.pushViewController(signUpVC, animated: true)
-    }
-    
-    private func logInPressed() {
-        let logInVC = LogInViewController()
-        navigationController?.present(logInVC, animated: true)    }
-
 }
 
+extension WelcomeViewController: WelcomeViewControllerDelegate {
+    func getStartedAction() {
+        let signUpVC = SignUpViewController()
+        navigationController?.present(signUpVC, animated: true)
+    }
+    
+    func logInAction() {
+        let logInVC = LogInViewController()
+        navigationController?.present(logInVC, animated: true)
+    }
+}

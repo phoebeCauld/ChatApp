@@ -12,7 +12,8 @@ class InboxTableViewController: UITableViewController {
 
     var inboxDict = [String: Inbox]()
     var userInbox = [Inbox]()
-    let currentUser = Constants.FirestoreConst.auth.currentUser
+    private let currentUser = Constants.FirestoreConst.auth.currentUser
+    private var listenerForInbox: ListenerRegistration?
 
 
     override func viewDidLoad() {
@@ -20,6 +21,15 @@ class InboxTableViewController: UITableViewController {
         observeInbox()
         configTableView()
         configNavBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+
+    
+    deinit {
+        print("deinit inbox")
     }
 
     fileprivate func observeInbox() {
@@ -36,6 +46,8 @@ class InboxTableViewController: UITableViewController {
 //                self.userInbox.append(inbox)
 //                self.sortedInbox()
 //            }
+        } listener: { listener in
+            self.listenerForInbox = listener
         }
     }
     

@@ -30,6 +30,10 @@ class SettingsTableViewController: UITableViewController {
         headerView.avatarView.loadImage(with: currentUser?.profileImageUrl)
     }
     
+    deinit {
+        print("deinit settings")
+    }
+
     fileprivate func getUser() {
         guard let currentUserUid = Constants.FirestoreConst.auth.currentUser?.uid else { return }
         FirestoreManager.shared.messageManager.getUser(uid: currentUserUid) { user in
@@ -74,9 +78,17 @@ class SettingsTableViewController: UITableViewController {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIds.logOutCellId,
                                                      for: indexPath) as! LogOutCell
+            cell.delegate = self
             return cell
         default:
             fatalError()
         }
+    }
+}
+
+extension SettingsTableViewController: SettingsTableViewCellDelegate {
+    
+    func didTapLogOut() {
+        FirestoreManager.shared.logActionManager.logOut()
     }
 }

@@ -61,11 +61,12 @@ class MessageManager {
         listener(snapshotListener)
     }
     
-    func recieveInboxMessages(uid: String, onSuccess: @escaping ((Inbox) -> Void)) {
+    func recieveInboxMessages(uid: String, onSuccess: @escaping ((Inbox) -> Void),
+                              listener: @escaping ((ListenerRegistration) -> Void)) {
         let ref = Constants.FirestoreConst.db
             .collection(Constants.FirestoreConst.inboxCollectionName).document(uid)
             .collection(Constants.FirestoreConst.recentMessegeCollectionName)
-        ref.addSnapshotListener { snapshot, error in
+        let snapshotListener = ref.addSnapshotListener { snapshot, error in
             if let error = error {
                 print("Document does not exist: \(error.localizedDescription)")
                 return
@@ -81,6 +82,7 @@ class MessageManager {
                 }
             })
         }
+        listener(snapshotListener)
     }
     
     fileprivate func getInbox(dict: [String: Any], onSuccess: @escaping ((Inbox) -> Void)) {

@@ -7,11 +7,15 @@
 
 import UIKit
 
-class SignUpView: UIView {
+protocol SignUpViewControllerDelegate: AnyObject {
+    func signUpAction(userName: String, email: String, password: String)
+    func closeAction()
+    func presentPicker()
+}
 
-    var signUpAction: ((String, String, String) -> Void)?
-    var closeAction: (() -> Void)?
-    var presentPicker: (() -> Void)?
+class SignUpView: UIView {
+    
+    weak var delegate: SignUpViewControllerDelegate?
     
     var constraintsWithErrorLabel = [NSLayoutConstraint]()
     var constraintsWithoutErrorLabel = [NSLayoutConstraint]()
@@ -44,9 +48,6 @@ class SignUpView: UIView {
         avatar.clipsToBounds = true
         avatar.translatesAutoresizingMaskIntoConstraints = false
         avatar.isUserInteractionEnabled = true
-//        let tapGesture = UITapGestureRecognizer(target: self,
-//                                                action: #selector(avatarTapped))
-//        avatar.addGestureRecognizer(tapGesture)
         return avatar
     }()
 
@@ -86,7 +87,6 @@ class SignUpView: UIView {
         textField.leftView = spacerView
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
-//        textField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textField.autocorrectionType = .no
         return textField
     }()
@@ -213,17 +213,15 @@ class SignUpView: UIView {
             addErrorLabels(for: passwordTF)
             return
         }
-        signUpAction?(userName, email, password)
+        delegate?.signUpAction(userName: userName, email: email, password: password)
     }
     
     @objc private func avatarTapped(_ gesture: UITapGestureRecognizer){
-//        let tappedImage = gesture.view as! UIImageView
-        presentPicker?()
-        print("avatar tapped")
+        delegate?.presentPicker()
     }
     
     @objc private func closeButtonTapped() {
-        closeAction?()
+        delegate?.closeAction()
     }
     
     required init?(coder: NSCoder) {

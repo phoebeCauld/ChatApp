@@ -7,12 +7,19 @@
 
 import UIKit
 
-class LogOutCell: UITableViewCell {
+protocol SettingsTableViewCellDelegate: AnyObject {
+    func didTapLogOut()
+}
 
+class LogOutCell: UITableViewCell {
+    
+    weak var delegate: SettingsTableViewCellDelegate?
+    
     let logOutButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log Out", for: .normal)
         button.tintColor = .systemRed
+        button.addTarget(self, action: #selector(logOutPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -28,6 +35,10 @@ class LogOutCell: UITableViewCell {
             logOutButton.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             logOutButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor)
         ])
+    }
+    
+    @objc fileprivate func logOutPressed() {
+        delegate?.didTapLogOut()
     }
 
     required init?(coder: NSCoder) {

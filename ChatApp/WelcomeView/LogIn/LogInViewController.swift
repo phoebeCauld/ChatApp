@@ -15,8 +15,7 @@ class LogInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view().closeAction = closeButtonPressed
-        view().logInAction = logInPressed
+        view().delegate = self
         view().emailTF.becomeFirstResponder()
     }
 
@@ -25,14 +24,29 @@ class LogInViewController: UIViewController {
     }
     
     private func logInPressed(_ email: String, _ password: String) {
-        FirestoreManager.shared.loginManager.logIn(email, password) { error in
+
+    }
+    
+    deinit{
+        print("deinit login")
+    }
+    
+    private func closeButtonPressed() {
+        
+    }
+}
+
+extension LogInViewController: LoginViewControllerDelegate {
+    
+    func logInAction(email: String, password: String) {
+        FirestoreManager.shared.logActionManager.logIn(email, password) { error in
             self.view().addErrorLabels(for: UITextField(), error: error.localizedDescription)
         } onSuccess: {
             FirestoreManager.shared.userManager.isOnline(status: true)
         }
     }
     
-    private func closeButtonPressed() {
+    func closeAction() {
         self.dismiss(animated: true)
     }
 }

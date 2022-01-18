@@ -7,10 +7,14 @@
 
 import UIKit
 
+protocol WelcomeViewControllerDelegate: AnyObject {
+    func getStartedAction()
+    func logInAction()
+}
+
 class WelcomeView: UIView {
     
-    var logInAction: (() -> Void)?
-    var getStartedAction: (() -> Void)?
+    weak var delegate: WelcomeViewControllerDelegate?
     
     let welcomeLabel: UILabel = {
         let label = UILabel()
@@ -79,11 +83,11 @@ class WelcomeView: UIView {
     }
     
     @objc private func getStartedPressed() {
-        getStartedAction?()
+        delegate?.getStartedAction()
     }
 
     @objc private func logInPressed() {
-        logInAction?()
+        delegate?.logInAction()
     }
     
     required init?(coder: NSCoder) {

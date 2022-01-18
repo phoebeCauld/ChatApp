@@ -21,6 +21,10 @@ class ContactsTableViewController: UITableViewController {
         fetchUsers()
     }
     
+    deinit {
+        print("deinit contacts")
+    }
+    
     fileprivate func configTableView() {
         tableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
@@ -36,17 +40,7 @@ class ContactsTableViewController: UITableViewController {
     }
     
     @objc fileprivate func logOut() {
-        FirestoreManager.shared.userManager.isOnline(status: false)
-        do {
-            try Auth.auth().signOut()
-        } catch let error as NSError {
-            print("logOut action failed with: \(error.localizedDescription)")
-        }
-        // меняет экран
-        let scene = UIApplication.shared.connectedScenes.first
-        if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {
-            sd.configureInitialVC()
-        }
+        FirestoreManager.shared.logActionManager.logOut()
     }
     
     // MARK: - Table view data source

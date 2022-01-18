@@ -14,17 +14,30 @@ class SignUpViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view().signUpAction = signUpPressed
-        view().closeAction = closeButtonPressed
-        view().presentPicker = presentPicker
+        view().delegate = self
         view().nicknameTF.becomeFirstResponder()
     }
-    
+
     fileprivate func view() -> SignUpView {
         return self.view as! SignUpView
     }
 
-    fileprivate func signUpPressed(userName: String, email: String, password: String) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view().endEditing(true)
+    }
+}
+
+extension SignUpViewController: SignUpViewControllerDelegate {
+    
+    func presentPicker() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        picker.delegate = self
+        self.present(picker, animated: true)
+    }
+    
+    func signUpAction(userName: String, email: String, password: String) {
         FirestoreManager.shared.signUpManager.registerUser(email, password, userName,
                                              image: view().avatarImage.image) { error in
             self.view().addErrorLabels(for: UITextField(), error: error.localizedDescription)
@@ -33,21 +46,8 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    fileprivate func closeButtonPressed() {
+    func closeAction() {
         self.dismiss(animated: true)
-    }
-
-    private func presentPicker() {
-        let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
-        picker.allowsEditing = true
-        picker.delegate = self
-        self.present(picker, animated: true)
-    }
-
-  
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view().endEditing(true)
     }
 }
 
@@ -63,3 +63,4 @@ extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationCon
         picker.dismiss(animated: true)
     }
 }
+

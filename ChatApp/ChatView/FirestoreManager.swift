@@ -11,7 +11,7 @@ class FirestoreManager {
     
     static let shared = FirestoreManager()
 
-    let loginManager = LogInManager()
+    let logActionManager = LogActionsManager()
     let signUpManager = SignUpManager()
     let userManager = UserManager()
     let messageManager = MessageManager()

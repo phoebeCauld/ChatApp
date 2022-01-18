@@ -39,7 +39,7 @@
 		2DE0BED427871F6300D112BC /* MessageCreatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BED327871F6300D112BC /* MessageCreatorView.swift */; };
 		2DE0BED627886E8000D112BC /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BED527886E8000D112BC /* Message.swift */; };
 		2DE0BED82788718C00D112BC /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE0BED72788718C00D112BC /* FirestoreManager.swift */; };
-		2DE7BF932790AF94001A7EBC /* LogInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF922790AF94001A7EBC /* LogInManager.swift */; };
+		2DE7BF932790AF94001A7EBC /* LogActionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF922790AF94001A7EBC /* LogActionsManager.swift */; };
 		2DE7BF982790B155001A7EBC /* SignUpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF972790B155001A7EBC /* SignUpManager.swift */; };
 		2DE7BF9A2790B2A6001A7EBC /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF992790B2A6001A7EBC /* UserManager.swift */; };
 		2DE7BF9C2790B2FB001A7EBC /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE7BF9B2790B2FB001A7EBC /* MessageManager.swift */; };
@@ -79,7 +79,7 @@
 		2DE0BED327871F6300D112BC /* MessageCreatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCreatorView.swift; sourceTree = "<group>"; };
 		2DE0BED527886E8000D112BC /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2DE0BED72788718C00D112BC /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
-		2DE7BF922790AF94001A7EBC /* LogInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInManager.swift; sourceTree = "<group>"; };
+		2DE7BF922790AF94001A7EBC /* LogActionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogActionsManager.swift; sourceTree = "<group>"; };
 		2DE7BF972790B155001A7EBC /* SignUpManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpManager.swift; sourceTree = "<group>"; };
 		2DE7BF992790B2A6001A7EBC /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		2DE7BF9B2790B2FB001A7EBC /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 				2DDDE54F278B5B930039DE05 /* Model */,
 				2DE0BED72788718C00D112BC /* FirestoreManager.swift */,
 				2DE7BF972790B155001A7EBC /* SignUpManager.swift */,
-				2DE7BF922790AF94001A7EBC /* LogInManager.swift */,
+				2DE7BF922790AF94001A7EBC /* LogActionsManager.swift */,
 				2DE7BF992790B2A6001A7EBC /* UserManager.swift */,
 				2DE7BF9B2790B2FB001A7EBC /* MessageManager.swift */,
 			);
@@ -382,7 +382,7 @@
 				2D96F3272781AAAA00AE71E0 /* WelcomeViewController.swift in Sources */,
 				2DE7BF982790B155001A7EBC /* SignUpManager.swift in Sources */,
 				2DE7BF9C2790B2FB001A7EBC /* MessageManager.swift in Sources */,
-				2DE7BF932790AF94001A7EBC /* LogInManager.swift in Sources */,
+				2DE7BF932790AF94001A7EBC /* LogActionsManager.swift in Sources */,
 				2D96F3232781AAAA00AE71E0 /* AppDelegate.swift in Sources */,
 				2DE0BED427871F6300D112BC /* MessageCreatorView.swift in Sources */,
 				2D7CE05E278A03AB003E2FD2 /* InboxTableViewController.swift in Sources */,

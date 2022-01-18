@@ -54,8 +54,6 @@ class MessagesViewController: UIViewController {
             listenerForUserMessages?.remove()
             listenerForPartnerMessages?.remove()
         }
-
-        
     }
     
     fileprivate func configTableView() {

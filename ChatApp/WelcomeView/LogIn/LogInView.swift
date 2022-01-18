@@ -7,10 +7,14 @@
 
 import UIKit
 
+protocol LoginViewControllerDelegate: AnyObject {
+    func logInAction(email: String, password: String)
+    func closeAction()
+}
+
 class LogInView: UIView {
 
-    var logInAction: ((String,String) -> Void)?
-    var closeAction: (() -> Void)?
+    weak var delegate: LoginViewControllerDelegate?
     
     var constraintsWithErrorLabel = [NSLayoutConstraint]()
     var constraintsWithoutErrorLabel = [NSLayoutConstraint]()
@@ -164,11 +168,11 @@ class LogInView: UIView {
             addErrorLabels(for: passwordTF)
             return
         }
-        logInAction?(email, password)
+        delegate?.logInAction(email: email, password: password)
     }
     
     @objc private func closeButtonTapped() {
-        closeAction?()
+        delegate?.closeAction()
     }
     
     required init?(coder: NSCoder) {

@@ -116,14 +116,6 @@ class InboxCell: UITableViewCell {
         timeLabel.text = dateString
     }
     func setActivityStatus(userUid: String) {
-//        FirestoreManager.shared.userManager.observeActivity(userUid: userUid) { status, latestActivity in
-//            if status {
-//                self.statusCheckView.backgroundColor = .systemGreen
-//            } else {
-//                self.statusCheckView.backgroundColor = .systemRed
-//            }
-//        } listener: {_ in nil}
-//    }
         FirestoreManager.shared.userManager.observeActivity(userUid: userUid, onSuccess: {status, latestActivity in
             if status {
                 self.statusCheckView.backgroundColor = .systemGreen

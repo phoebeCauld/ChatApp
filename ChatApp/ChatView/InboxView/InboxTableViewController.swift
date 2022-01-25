@@ -37,15 +37,6 @@ class InboxTableViewController: UITableViewController {
         FirestoreManager.shared.messageManager.recieveInboxMessages(uid: currentUserUid) { inbox in
             self.inboxDict[inbox.user.uid] = inbox
             self.sortedInbox()
-//            if !self.userInbox.contains(where: { $0.user.uid == inbox.user.uid}) {
-//                self.userInbox.append(inbox)
-//                self.sortedInbox()
-//            } else {
-//                guard let index = self.userInbox.firstIndex(where: { $0.user.uid == inbox.user.uid}) else { return }
-//                self.userInbox.remove(at: index)
-//                self.userInbox.append(inbox)
-//                self.sortedInbox()
-//            }
         } listener: { listener in
             self.listenerForInbox = listener
         }
@@ -53,7 +44,6 @@ class InboxTableViewController: UITableViewController {
     
     fileprivate func sortedInbox() {
         userInbox = inboxDict.values.sorted(by: {$0.date > $1.date})
-//        userInbox = userInbox.sorted(by: {$0.date > $1.date})
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

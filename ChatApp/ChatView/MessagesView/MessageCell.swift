@@ -79,7 +79,7 @@ class MessageCell: UITableViewCell {
         ]
         
         partnerConstraints = [
-            stack.leadingAnchor.constraint(greaterThanOrEqualTo: self.contentView.leadingAnchor, constant: -(MessageCellConstants.avatarSize+20)),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: self.contentView.trailingAnchor, constant: -(MessageCellConstants.avatarSize+20)),
             stack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
                                            constant: MessageCellConstants.offsets)
         ]

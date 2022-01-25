@@ -26,7 +26,6 @@ class LogActionsManager {
     }
     
     func logOut() {
-//        FirestoreManager.shared.userManager.isOnline(status: false)
         do {
             FirestoreManager.shared.userManager.isOnline(status: false)
             try Constants.FirestoreConst.auth.signOut()

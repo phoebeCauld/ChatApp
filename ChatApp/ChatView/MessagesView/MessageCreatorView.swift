@@ -9,10 +9,12 @@ import UIKit
 
 class MessageCreatorView: UIView {
     var sendAction: (() -> Void)?
+    
     let messageField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Message..."
         textField.backgroundColor = .white
+        textField.autocorrectionType = .no
         textField.layer.cornerRadius = MessageCreatorConstants.itemsSize/2
         let spacerView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         textField.leftViewMode = UITextField.ViewMode.always

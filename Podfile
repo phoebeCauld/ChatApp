@@ -8,5 +8,4 @@ target 'ChatApp' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
   pod 'SDWebImage'
-  pod 'IQKeyboardManagerSwift'
 end

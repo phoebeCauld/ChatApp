@@ -13,8 +13,6 @@ class MessagesViewController: UIViewController {
     var partnerUser: User?
     var messages = [Message]()
     let currentUserUid = Auth.auth().currentUser?.uid
-    var activieStatus: Bool?
-    var latestOnline: String?
     var listenerForUserMessages: ListenerRegistration?
     var listenerForPartnerMessages: ListenerRegistration?
     var listenerActivity: ListenerRegistration?
@@ -22,28 +20,28 @@ class MessagesViewController: UIViewController {
     override func loadView() {
         self.view = MessagesView()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view().messageCreator.messageField.delegate = self
+        view().messageCreator.delegate = self
         view().backgroundColor = Constants.Colors.grayBackground
-        view().messageCreator.sendAction = { [weak self] in
-            self?.sendButtonDidTapped()
-        }
         observeActivity()
         observeMessages()
         configTableView()
         configNavBar()
     }
-
+    
     fileprivate func view() -> MessagesView {
-       return self.view as! MessagesView
+        return self.view as? MessagesView ?? MessagesView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -53,14 +51,44 @@ class MessagesViewController: UIViewController {
             listenerActivity?.remove()
             listenerForUserMessages?.remove()
             listenerForPartnerMessages?.remove()
+            NotificationCenter.default.removeObserver(self)
         }
     }
+    
     
     fileprivate func configTableView() {
         view().messageScene.register(MessageCell.self, forCellReuseIdentifier: "cell")
         view().messageScene.separatorStyle = .none
         view().messageScene.delegate = self
         view().messageScene.dataSource = self
+    }
+
+    fileprivate func configNavBar() {
+        guard let user = partnerUser else { return }
+
+        navigationItem.largeTitleDisplayMode = .never
+        let avatarView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
+        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
+        image.loadImage(with: user.profileImageUrl)
+        image.layer.cornerRadius = 18
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        avatarView.addSubview(image)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+                               as? NSValue)?.cgRectValue {
+            self.view().bottomConstraint?.constant = -keyboardSize.height
+            self.view().layoutIfNeeded()
+            scrollToLastmessage()
+        }
+    }
+    
+    @objc  func keyboardWillHide() {
+        self.view().bottomConstraint?.constant = 0
+        self.view().layoutIfNeeded()
     }
     
     fileprivate func observeMessages() {
@@ -93,68 +121,41 @@ class MessagesViewController: UIViewController {
         }
     }
     
-    fileprivate func configNavBar() {
-        guard let user = partnerUser else { return }
-
-        navigationItem.largeTitleDisplayMode = .never
-        let avatarView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
-        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
-        image.loadImage(with: user.profileImageUrl)
-        image.layer.cornerRadius = 18
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        avatarView.addSubview(image)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
-    }
-    
-    func configStatusLabel(user: User) {
-        var status = ""
-        var color = UIColor()
-        guard let activieStatus = activieStatus else { return }
-
-        if activieStatus {
-            status = "Active"
-            color = .systemGreen
-        } else {
-            status = "laast seen " + (latestOnline ?? "")
-            color = .systemRed
-        }
-        
-        let attributed = NSMutableAttributedString(string: user.userName + "\n" , attributes: [.font : UIFont.systemFont(ofSize: 17), .foregroundColor: UIColor.black])
-        attributed.append(NSAttributedString(string: status, attributes: [.font : UIFont.systemFont(ofSize: 13), .foregroundColor: color]))
-        view().titleLabel.attributedText = attributed
-        navigationItem.titleView = view().titleLabel
-    }
     
     func observeActivity() {
         guard let partnerUser = partnerUser else { return }
 
         FirestoreManager.shared.userManager.observeActivity(userUid: partnerUser.uid) { status, latestActivity in
-            self.activieStatus = status
-            self.latestOnline = latestActivity.convertToTimeString()
-            self.configStatusLabel(user: partnerUser)
+           let latestOnline = latestActivity.convertToTimeString()
+            self.view().configStatusLabel(user: partnerUser, activieStatus: status, latestActivity: latestOnline)
+            self.navigationItem.titleView = self.view().titleLabel
         } listener: { listener in
             self.listenerActivity = listener
         }
     }
-    
-    fileprivate func sendButtonDidTapped() {
-        guard let text = view().messageCreator.messageField.text else { return }
-        guard let partnerUser = partnerUser else { return }
-        
-        FirestoreManager.shared.messageManager.sendMessageToFirebase(text: text, from: currentUserUid, to: partnerUser.uid)
-        DispatchQueue.main.async {
-            if self.messages.count > 1 {
-                let indexPath = IndexPath(row: self.messages.count-1, section: 0)
-                self.view().messageScene.scrollToRow(at: indexPath, at: .top, animated: true)
-            }
-            self.view().messageCreator.messageField.text = ""
+
+    fileprivate func scrollToLastmessage() {
+        if self.messages.count > 1 {
+            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+            self.view().messageScene.scrollToRow(at: indexPath, at: .top, animated: false)
         }
     }
     
     deinit {
         print("message view destroyed")
      }
+}
+extension MessagesViewController: MessageCreatorDelegate {
+    func sendAction() {
+        guard let text = view().messageCreator.messageField.text else { return }
+        guard let partnerUser = partnerUser else { return }
+        
+        FirestoreManager.shared.messageManager.sendMessageToFirebase(text: text, from: currentUserUid, to: partnerUser.uid)
+        DispatchQueue.main.async {
+            self.scrollToLastmessage()
+            self.view().messageCreator.messageField.text = ""
+        }
+    }
 }
 
 extension MessagesViewController: UITextFieldDelegate {

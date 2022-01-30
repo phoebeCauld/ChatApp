@@ -12,15 +12,14 @@ import FirebaseAuth
 class SignUpManager {
     
     func registerUser(_ email: String, _ password: String, _ userName: String,
-                      image: UIImage?, onError: @escaping ((Error) -> Void),
-                      onSuccess: @escaping (() -> Void)) {
+                      image: UIImage?, completion: @escaping ((Error?) -> Void)) {
         Constants.FirestoreConst.auth.createUser(withEmail: email, password: password) { authDataResult, error in
             if let error = error {
-                onError(error)
+                completion(error)
                 return
             }
             if let authData = authDataResult {
-                onSuccess()
+                completion(nil)
                 self.uploadImage(authData, userName, image: image)
                 let scene = UIApplication.shared.connectedScenes.first
                 if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {

@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol MessageCreatorDelegate: AnyObject {
+    func sendAction()
+}
+
 class MessageCreatorView: UIView {
-    var sendAction: (() -> Void)?
+    
+    weak var delegate: MessageCreatorDelegate?
     
     let messageField: UITextField = {
         let textField = UITextField()
@@ -77,7 +82,7 @@ class MessageCreatorView: UIView {
     }
     
     @objc func sendButtonDidTapped() {
-        sendAction?()
+        delegate?.sendAction()
     }
     
     required init?(coder: NSCoder) {

@@ -8,31 +8,28 @@
 import UIKit
 
 class LogInViewController: UIViewController {
-
+    
     override func loadView() {
         self.view = LogInView()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view().delegate = self
         view().emailTF.becomeFirstResponder()
     }
-
+    
     private func view() -> LogInView {
-        return self.view as! LogInView
+        guard let view = self.view as? LogInView else { return LogInView() }
+        return view
     }
     
-    private func logInPressed(_ email: String, _ password: String) {
-
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view().endEditing(true)
     }
     
     deinit{
         print("deinit login")
-    }
-    
-    private func closeButtonPressed() {
-        
     }
 }
 
@@ -40,9 +37,11 @@ extension LogInViewController: LoginViewControllerDelegate {
     
     func logInAction(email: String, password: String) {
         FirestoreManager.shared.logActionManager.logIn(email, password) { error in
-            self.view().addErrorLabels(for: UITextField(), error: error.localizedDescription)
-        } onSuccess: {
-            FirestoreManager.shared.userManager.isOnline(status: true)
+            if let error = error {
+                self.view().addErrorLabels(for: UITextField(), error: error.localizedDescription)
+            } else {
+                FirestoreManager.shared.userManager.isOnline(status: true)
+            }
         }
     }
     

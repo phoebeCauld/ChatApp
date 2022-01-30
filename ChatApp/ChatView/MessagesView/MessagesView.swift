@@ -11,16 +11,8 @@ class MessagesView: UIView {
 
     let messageScene = UITableView()
     let messageCreator = MessageCreatorView()
-    var keyBoardIsShowUp = false {
-        didSet {
-            configKeyboardMove(isShowUp: keyBoardIsShowUp)
-            print(keyBoardIsShowUp)
-        }
-    }
-    var keyBoardHight: CGFloat?
-    var constraintsWithKeyboard = [NSLayoutConstraint]()
-    var constraintsWithoutKeyboard = [NSLayoutConstraint]()
 
+    var bottomConstraint: NSLayoutConstraint?
     
      let titleLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -31,46 +23,52 @@ class MessagesView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        congigView()
+        setConstraints()
+        hideKeyboardGesture()
     }
 
-    func congigView() {
-        messageCreator.translatesAutoresizingMaskIntoConstraints = false
-        messageScene.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(messageScene)
-        self.addSubview(messageCreator)
-        setConstraints()
-    }
-    
     func setConstraints() {
-        constraintsWithoutKeyboard = [
-            messageCreator.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
-        ]
-        constraintsWithKeyboard = [
-            messageCreator.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: keyBoardHight ?? 0.0)
-        ]
+        let stack = UIStackView(arrangedSubviews: [messageScene, messageCreator])
+        stack.axis = .vertical
+        self.addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        bottomConstraint = stack.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         NSLayoutConstraint.activate([
-            messageScene.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            messageScene.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            messageScene.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            messageCreator.topAnchor.constraint(equalTo: messageScene.bottomAnchor),
-            messageCreator.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            messageCreator.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            messageCreator.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: keyBoardHight ?? 0.0),
-            messageCreator.heightAnchor.constraint(equalToConstant: 50)
-        ] + constraintsWithoutKeyboard)
+            stack.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bottomConstraint!,
+            messageCreator.heightAnchor.constraint(equalToConstant: 80)
+        ])
     }
     
-    func configKeyboardMove(isShowUp: Bool) {
-        if isShowUp {
-            constraintsWithoutKeyboard.forEach {$0.isActive = false}
-            constraintsWithKeyboard.forEach {$0.isActive = true}
+    func configStatusLabel(user: User, activieStatus: Bool, latestActivity: String) {
+        var status = ""
+        var color = UIColor()
+
+        if activieStatus {
+            status = "Active"
+            color = .systemGreen
         } else {
-            constraintsWithKeyboard.forEach {$0.isActive = false}
-            constraintsWithoutKeyboard.forEach {$0.isActive = true}
+            status = "laast seen " + (latestActivity)
+            color = .systemRed
         }
+        
+        let attributed = NSMutableAttributedString(string: user.userName + "\n" , attributes: [.font : UIFont.systemFont(ofSize: 17), .foregroundColor: UIColor.black])
+        attributed.append(NSAttributedString(string: status, attributes: [.font : UIFont.systemFont(ofSize: 13), .foregroundColor: color]))
+        self.titleLabel.attributedText = attributed
     }
     
+    private func hideKeyboardGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+            tapGesture.cancelsTouchesInView = true
+            messageScene.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func hideKeyboard() {
+        self.endEditing(true)
+    }
+
     required init?(coder: NSCoder) {
         fatalError()
     }

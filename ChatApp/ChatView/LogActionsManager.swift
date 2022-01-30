@@ -10,16 +10,15 @@ import UIKit
 class LogActionsManager {
  
     func logIn(_ email: String, _ password: String,
-               onError: @escaping ((Error) -> Void),
-               onSuccess: @escaping (() -> Void)) {
+               completion: @escaping ((Error?) -> Void)) {
         
         Constants.FirestoreConst.auth.signIn(withEmail: email, password: password) { authDataResult, error in
             if let error = error {
-                onError(error)
+                completion(error)
                 return
             }
             if let _ = authDataResult {
-                onSuccess()
+                completion(nil)
                 self.changeRootVC()
             }
         }

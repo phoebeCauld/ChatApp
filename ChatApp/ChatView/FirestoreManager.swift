@@ -8,7 +8,7 @@
 import Foundation
 
 class FirestoreManager {
-    
+
     static let shared = FirestoreManager()
 
     let logActionManager = LogActionsManager()

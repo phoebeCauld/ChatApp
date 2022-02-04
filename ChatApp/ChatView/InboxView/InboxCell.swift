@@ -10,8 +10,9 @@ import Firebase
 
 class InboxCell: UITableViewCell {
     
-    var inboxInfo: Inbox! {
+    var inboxInfo: Inbox? {
         didSet {
+            guard let inboxInfo = inboxInfo else { return }
             userNameLabel.text = inboxInfo.user.userName
             avatarImage.loadImage(with: inboxInfo.user.profileImageUrl)
             messageLabel.text = inboxInfo.text
@@ -112,7 +113,7 @@ class InboxCell: UITableViewCell {
     
     func setTimeLabel(time: Double) {
         let date = Date(timeIntervalSince1970: time)
-        let dateString = Date().timeAgoSince(date, from: Date(), numericDates: true)
+        let dateString = Date().timeAgoSince(date, from: Date())
         timeLabel.text = dateString
     }
     func setActivityStatus(userUid: String) {

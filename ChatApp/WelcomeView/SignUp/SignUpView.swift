@@ -241,5 +241,4 @@ enum SignUpErrors: String {
     case emptyEmailField = "Please enter email"
     case emptyPasswordField = "Please enter password"
     case emptyNicknameField = "Please enter username"
-    case incorrectData = "Incorrect email or password"
 }

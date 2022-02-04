@@ -131,10 +131,10 @@
 			isa = PBXGroup;
 			children = (
 				2D83CEC02784D07B001E38A7 /* ChatAppTabBarController.swift */,
-				2DDDE552278B62840039DE05 /* SettingsView */,
+				2DE0BEC927871D3D00D112BC /* Contacts */,
 				2D7CE05C278A0389003E2FD2 /* InboxView */,
 				2DE0BECA27871D4D00D112BC /* MessagesView */,
-				2DE0BEC927871D3D00D112BC /* Contacts */,
+				2DDDE552278B62840039DE05 /* SettingsView */,
 				2DDDE54F278B5B930039DE05 /* Model */,
 				2DE0BED72788718C00D112BC /* FirestoreManager.swift */,
 				2DE7BF972790B155001A7EBC /* SignUpManager.swift */,

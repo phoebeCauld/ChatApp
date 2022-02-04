@@ -9,8 +9,9 @@ import UIKit
 
 class ContactsTableViewCell: UITableViewCell {
     
-    var userInfo: User! {
+    var userInfo: User? {
         didSet {
+            guard let userInfo = userInfo else { return }
             userNameLabel.text = userInfo.userName
             avatarImage.loadImage(with: userInfo.profileImageUrl)
         }

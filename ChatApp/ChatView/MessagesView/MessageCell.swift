@@ -9,8 +9,9 @@ import UIKit
 
 class MessageCell: UITableViewCell {
     
-    var message: Message! {
+    var message: Message? {
         didSet {
+            guard let message = message else { return }
             messageLabel.text = message.text
             configView(from: message.from, text: message.text)
         }
@@ -103,7 +104,7 @@ class MessageCell: UITableViewCell {
     }
     
     func configView(from: String, text: String) {
-        
+        guard let message = message else { return }
         if message.from != Constants.FirestoreConst.auth.currentUser?.uid {
             partnerAvatar.isHidden = false
             currentUserConstraints.forEach {$0.isActive = false}
@@ -114,11 +115,10 @@ class MessageCell: UITableViewCell {
             currentUserConstraints.forEach {$0.isActive = true}
         }
         let date = Date(timeIntervalSince1970: message.date)
-        let dateString = Date().timeAgoSince(date, from: Date(), numericDates: true)
+        let dateString = Date().timeAgoSince(date, from: Date())
         timeLabel.text = dateString
     }
 }
-
 
 struct MessageCellConstants {
     static let avatarSize: CGFloat = 30

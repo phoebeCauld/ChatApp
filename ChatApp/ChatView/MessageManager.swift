@@ -9,7 +9,6 @@ import UIKit
 import Firebase
 
 class MessageManager {
-    
     func sendMessageToFirebase(text: String, from: String?, to: String?) {
         guard let currentUserUid = from else { return }
         guard let partnerUid = to else { return }

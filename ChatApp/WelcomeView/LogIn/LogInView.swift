@@ -108,6 +108,8 @@ class LogInView: UIView {
                                             constant: logInViewConstants.insets),
             errorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
                                                 constant: logInViewConstants.insets),
+            errorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+                                                constant: -logInViewConstants.insets),
             stack.topAnchor.constraint(equalTo: errorLabel.bottomAnchor,
                                        constant: 5)
         ]
@@ -153,7 +155,8 @@ class LogInView: UIView {
             emailTF.becomeFirstResponder()
         case passwordTF: errorLabel.text = LogInErrors.emptyPasswordField.rawValue
             passwordTF.becomeFirstResponder()
-        default: errorLabel.text = error
+        default:
+         errorLabel.text = error
         }
         constraintsWithoutErrorLabel.forEach {$0.isActive = false}
         constraintsWithErrorLabel.forEach {$0.isActive = true}

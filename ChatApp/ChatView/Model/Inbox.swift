@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct Inbox {
     let user: User
     let from: String

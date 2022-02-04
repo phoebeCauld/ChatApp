@@ -17,69 +17,45 @@ extension UIImageView {
 }
 
 extension Date {
-    func timeAgoSince(_ date: Date, from currentDate: Date = Date(), numericDates: Bool = false) -> String {
+    func timeAgoSince(_ date: Date, from currentDate: Date = Date()) -> String {
         let calendar = Calendar.current
         let now = currentDate
         let earliest = (now as NSDate).earlierDate(date)
         let latest = (earliest == now) ? date : now
-        let components:DateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.minute , NSCalendar.Unit.hour , NSCalendar.Unit.day , NSCalendar.Unit.weekOfYear , NSCalendar.Unit.month , NSCalendar.Unit.year , NSCalendar.Unit.second], from: earliest, to: latest, options: NSCalendar.Options())
-
-        if (components.year! >= 2) {
+        let components: DateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.minute , NSCalendar.Unit.hour , NSCalendar.Unit.day , NSCalendar.Unit.weekOfYear , NSCalendar.Unit.month , NSCalendar.Unit.year , NSCalendar.Unit.second], from: earliest, to: latest, options: NSCalendar.Options())
+        
+        switch components.year! >= 2 {
+        case true:
             return "\(components.year!) years ago"
-        } else if (components.year! >= 1){
-            if (numericDates){
-                return "1 year ago"
-            } else {
-                return "Last year"
-            }
-        } else if (components.month! >= 2) {
+        case false where components.year! >= 1:
+            return "Last year"
+        case false where components.month! >= 2:
             return "\(components.month!) months ago"
-        } else if (components.month! >= 1){
-            if (numericDates){
-                return "1 month ago"
-            } else {
-                return "Last month"
-            }
-        } else if (components.weekOfYear! >= 2) {
+        case false where components.month! >= 1:
+            return "Last month"
+        case false where components.weekOfYear! >= 2:
             return "\(components.weekOfYear!) weeks ago"
-        } else if (components.weekOfYear! >= 1){
-            if (numericDates){
-                return "1 week ago"
-            } else {
-                return "Last week"
-            }
-        } else if (components.day! >= 2) {
+        case false where components.weekOfYear! >= 1:
+            return "1 week ago"
+        case false where components.day! >= 2:
             return "\(components.day!) days ago"
-        } else if (components.day! >= 1){
-            if (numericDates){
-                return "1 day ago"
-            } else {
-                return "Yesterday"
-            }
-        } else if (components.hour! >= 2) {
+        case false where components.day! >= 1:
+            return "Yesterday"
+        case false where components.hour! >= 2:
             return "\(components.hour!)h ago"
-        } else if (components.hour! >= 1){
-            if (numericDates){
-                return "1h ago"
-            } else {
-                return "An hour ago"
-            }
-        } else if (components.minute! >= 2) {
+        case false where components.hour! >= 1:
+            return "1h ago"
+        case false where components.minute! >= 2:
             return "\(components.minute!)m ago"
-        } else if (components.minute! >= 1){
-            if (numericDates){
-                return "1m ago"
-            } else {
-                return "A min ago"
-            }
-        } else if (components.second! >= 3) {
+        case false where components.minute! >= 1:
+            return "1m ago"
+        case false where components.second! >= 3:
             return "\(components.second!) sec ago"
-        } else {
+        case false:
             return "Just now"
         }
     }
 }
-
 
 extension Double {
     func convertToTimeString() -> String {
@@ -87,13 +63,15 @@ extension Double {
         let date = Date(timeIntervalSince1970: self)
         let calendar = Calendar.current
         let formatter = DateFormatter()
-        if calendar.isDateInToday(date) {
+        
+        switch calendar.isDateInToday(date) {
+        case true:
             stringTime = ""
             formatter.timeStyle = .short
-        } else if calendar.isDateInYesterday(date) {
+        case false where calendar.isDateInYesterday(date):
             stringTime = "yesterday at"
             formatter.timeStyle = .short
-        } else {
+        case false:
             formatter.timeStyle = .short
         }
         let stringDate = formatter.string(from: date)
